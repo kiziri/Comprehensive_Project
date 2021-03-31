@@ -1,0 +1,50 @@
+html {
+    position: relative;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: 100%;
+}
+
+.main-content-1 {
+    margin-top: 50px;
+    background-color: cornsilk;
+    padding: 10px;
+}
+
+.main-content-2 {
+    margin-top: 50px;
+    background-color: whitesmoke;
+    padding: 10px;
+}
+
+.second-content {
+    float: inherit;
+    text-align: center;
+}
+
+.function-li-1 {
+    margin-top: 15px;
+}
+
+.function-li-2 {
+    margin-top: 15px;
+}
+
+.function-li-3 {
+    margin-top: 15px;
+}
+
+.function-li-4 {
+    margin-top: 15px;
+}
+
+.first-content-info-div {
+    margin-top: 15px;
+}
+
+.second-content {
+    margin-top: 30px;
+}
