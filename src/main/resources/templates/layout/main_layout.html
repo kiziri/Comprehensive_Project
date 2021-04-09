@@ -15,10 +15,10 @@
     <link rel="stylesheet" type="text/css" th:href="@{css/common/footer_style.css}">
 </head>
 
-<header th:replace="fragment/header :: heaferFragment"></header>
+<div th:insert="fragment/header :: heaferFragment"></div>
 
 <div layout:fragment="content"></div>
 
-<footer th:replace="fragment/footer :: footerFragment"></footer>
+<div th:insert="fragment/footer :: footerFragment"></div>
 
 </html>

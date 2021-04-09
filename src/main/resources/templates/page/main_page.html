@@ -3,8 +3,8 @@
         lang="ko"
         xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorator="layout/main_layout"
-        th:with="metaTitle='A.I.M'">
+        layout:decorate="layout/main_layout"
+        >
 
 <head>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main_page_css/main_content.css}">
@@ -13,29 +13,28 @@
 <div layout:fragment="content">
     <!-- main 시작 -->
     <section class="main-content-1">
-        <div class="container">
+        <div class="container first-content">
             <!-- Content here -->
-            <section class="first-content">
-                <div>
-                    <div class="first-content-title-div">
-                        <h1 class="first-content-title">개요</h1>
-                    </div>
-                    <div class="first-content-info-div">
-                        <p class="first-content-info">개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
-                            내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용</p>
-                    </div>
-            </section>
+            <div>
+                <div class="first-content-title-div">
+                    <h1 class="first-content-title">개요</h1>
+                </div>
+                <div class="first-content-info-div">
+                    <p class="first-content-info">개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요
+                        내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용개요 내용</p>
+                </div>
+            </div>
         </div>
     </section>
     <section class="main-content-2">
@@ -75,6 +74,7 @@
                             <li>기능1</li>
                         </ul>
                     </div>
+                </div>
             </section>
         </div>
     </section>
