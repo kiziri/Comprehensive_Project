@@ -1,0 +1,17 @@
+html {
+    position: relative;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: 100%;
+}
+
+.login-content {
+    margin-top: 30px;
+}
+
+.login-id-div {
+
+}
