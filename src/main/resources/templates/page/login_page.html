@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="layout/login_layout"
+>
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/page_css/login_content.css}">
+</head>
+
+<div layout:fragment="login_content">
+    <!-- main 시작 -->
+    <section class="login-content">
+        <div class="container first-content">
+            <!-- Content here -->
+            <div>
+                <form>
+                    <div class="login-id-div mb-3">
+                        <label for="inputEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelper">
+                        <div id="emailHelper" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="login-pw-div mb-3">
+                        <label for="inputPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="inputPassword">
+                    </div>
+                    <button type="submit" class="btn btn-primary">회원가입</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- /.main 끝 -->
+</div>
+
+
+</html>
