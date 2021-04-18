@@ -17,4 +17,9 @@ public class Controller {
         return "page/login_page";
     }
 
+    @RequestMapping("/join")
+    public String join(Model model) {
+        return "page/join_page";
+    }
+
 }
