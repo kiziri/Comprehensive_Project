@@ -10,8 +10,23 @@ body {
 
 .login-content {
     margin-top: 30px;
+    align-content: center;
+}
+
+.first-content {
+    display: inline-block;
+    //text-align: center;
+}
+
+.login-form {
+    width: 50%;
+    align-items: center;
 }
 
 .login-id-div {
+
+}
+
+.login-pw-div {
 
 }
