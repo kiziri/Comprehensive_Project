@@ -7,10 +7,21 @@ html {
 body {
     min-height: 100%;
 }
+.main_div{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-div{
+    display: flex;
+    justify-content:center;
+}
 
 .login-content {
     margin-top: 30px;
-    align-content: center;
+    display: flex;
+    justify-content:center;
 }
 
 .first-content {
