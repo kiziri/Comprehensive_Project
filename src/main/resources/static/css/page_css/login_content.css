@@ -7,19 +7,20 @@ html {
 body {
     min-height: 100%;
 }
+
 .main_div{
     display: flex;
     justify-content:center;
     align-items:center;
 }
 
-.login-div{
+.login-content {
+    margin-top: 30px;
     display: flex;
     justify-content:center;
 }
 
-.login-content {
-    margin-top: 30px;
+.login-div{
     display: flex;
     justify-content:center;
 }
