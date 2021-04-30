@@ -1,0 +1,10 @@
+.imagepre{
+    height: 500px;
+    border: black 1px solid;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+#Imagesubmit{
+    margin-top: 50px;
+}
