@@ -1,0 +1,24 @@
+.first-content{
+    display: flex;
+    justify-content:center;
+}
+
+.imagepre{
+    height: 500px;
+    border: black 1px solid;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.result_json{
+    height: 500px;
+    border: black 1px solid;
+    text-align: center;
+}
+.download_content{
+    display: flex;
+    justify-content:center;
+    text-align: center;
+    margin-top: 20px;
+}

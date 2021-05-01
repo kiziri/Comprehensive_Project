@@ -27,4 +27,9 @@ public class Controller {
         return "page/demo_page";
     }
 
+    @RequestMapping("/result")
+    public String result(Model model) {
+        return "page/result_page";
+    }
+
 }

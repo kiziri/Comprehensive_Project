@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="layout/result_layout"
+>
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/page_css/result_content.css}">
+</head>
+
+<div layout:fragment="result_content">
+    <!-- main 시작 -->
+    <section class="main-content">
+        <div class="container first-content">
+            <!-- Content here -->
+            <div>
+                <div class="first-content-title-div">
+                    <h1 class="first-content-title">기능 설명</h1>
+                </div>
+                <div class="first-content-info-div">
+                    <p class="first-content-info">간략한 기능 설명 간략한 기능 설명 간략한 기능 설명</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                    <div class="imagepre">
+                        <img src="#" alt="이미지 미리보기">
+                    </div>
+            </div>
+            <div class="col-sm">
+                <div class="col result_json">
+                    <p>json 결과</p>
+                </div>
+                <div class="row-cols-3 d-grid gap-2 d-md-block download_content">
+                    <button type="button" class="btn btn-primary ">다운로드</button>
+                    <button type="button" class="btn btn-primary ">다른이름으로 다운로드</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.main 끝 -->
+</div>
+</html>
