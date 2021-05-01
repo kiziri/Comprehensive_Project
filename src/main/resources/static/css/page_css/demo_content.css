@@ -1,3 +1,8 @@
+.first-content{
+    display: flex;
+    justify-content:center;
+}
+
 .imagepre{
     height: 500px;
     border: black 1px solid;
