@@ -17,10 +17,10 @@ public class UploadForm {
 
     private String path="C:\\Users\\yunhc\\Downloads";
 
-    @RequestMapping("/form")
-    public String form()
+    @RequestMapping("/demo")
+    public String demo(Model model)
     {
-        return "form";
+        return "page/demo_page";
     }
 
     @RequestMapping("/result_image")
@@ -45,10 +45,10 @@ public class UploadForm {
 
             if(!multi.isEmpty())//파일 업로드
             {
-                File file = new File(uploadpath, multi.getOriginalFilename());
+                File file = new File(uploadpath, saveFileName);
                 multi.transferTo(file);
 
-                model.addAttribute("filename", multi.getOriginalFilename());
+                model.addAttribute("filename", saveFileName);
                 model.addAttribute("uploadPath", file.getAbsolutePath());
             }
         }catch(Exception e)

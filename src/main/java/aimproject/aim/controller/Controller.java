@@ -22,10 +22,10 @@ public class Controller {
         return "page/join_page";
     }
 
-    @RequestMapping("/demo")
-    public String demo(Model model) {
-        return "page/demo_page";
-    }
+   //@RequestMapping("/demo")
+   // public String demo(Model model) {
+   //     return "page/demo_page";
+   //}
 
     @RequestMapping("/result")
     public String result(Model model) {
