@@ -1,30 +1,17 @@
-$('#image_up').submit(function() {
-    var imgFile = $('#formFileLg').val();
-    var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp|pdf)$/;
-
-        if ($('#formFileLg').val() == '') {
-            alert('이미지가 없습니다.');
-            return false;
-        }
-        else if (!imgFile.match(fileForm)) {
-            alert("이미지 파일만 업로드 가능");
-            return false;
-        }
-        
-}); // end submit()
+var sel_file;
 
 $(document).ready(function() {
     $("#formFileLg").on("change", handleImgFileSelect);
 });
 
-var sel_file;
-
 function handleImgFileSelect(e) {
     var files = e.target.files;
     var filesArr = Array.prototype.slice.call(files);
 
+    var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
     filesArr.forEach(function(f) {
-        if(!f.type.match("image.*")) {
+        if (!f.type.match(reg)) {
             alert("확장자는 이미지 확장자만 가능합니다.");
             return;
         }
@@ -38,5 +25,29 @@ function handleImgFileSelect(e) {
         reader.readAsDataURL(f);
     });
 }
+
+function fn_submit(){
+
+    var form = new FormData();
+    form.append( "formFileLg", $("#formFileLg")[0].files[0] );
+
+    jQuery.ajax({
+        url : "/result_image"
+        , type : "POST"
+        , processData : false
+        , contentType : false
+        , data : form
+        , success:function(response) {
+            alert("성공하였습니다.");
+            console.log(response);
+        }
+        ,error: function (jqXHR)
+        {
+            alert(jqXHR.responseText);
+        }
+    });
+}
+
+
 
 console.log('js test demo')
