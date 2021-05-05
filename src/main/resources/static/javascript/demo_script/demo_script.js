@@ -26,28 +26,4 @@ function handleImgFileSelect(e) {
     });
 }
 
-function fn_submit(){
-
-    var form = new FormData();
-    form.append( "formFileLg", $("#formFileLg")[0].files[0] );
-
-    jQuery.ajax({
-        url : "/result_image"
-        , type : "POST"
-        , processData : false
-        , contentType : false
-        , data : form
-        , success:function(response) {
-            alert("성공하였습니다.");
-            console.log(response);
-        }
-        ,error: function (jqXHR)
-        {
-            alert(jqXHR.responseText);
-        }
-    });
-}
-
-
-
 console.log('js test demo')

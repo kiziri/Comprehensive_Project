@@ -2,20 +2,30 @@ package aimproject.aim.controller;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UploadForm {
 
     private String path="C:\\Users\\yunhc\\Downloads";
+    private String path2="C:\\Users\\yunhc\\Downloads\\";
+    private static final Logger logger = LoggerFactory.getLogger(UploadForm.class);
+
 
     @RequestMapping("/demo")
     public String demo(Model model)
@@ -23,55 +33,40 @@ public class UploadForm {
         return "page/demo_page";
     }
 
-    @RequestMapping("/result_image")
-    public String result(@RequestParam("formFileLg") MultipartFile multi,HttpServletRequest request,HttpServletResponse response, Model model)
+    @RequestMapping("/result")
+    public String result(Model model)
     {
-        String url = null;
-
-        try {
-
-            //String uploadpath = request.getServletContext().getRealPath(path);
-            String uploadpath = path;
-            String originFilename = multi.getOriginalFilename();
-            String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
-            long size = multi.getSize();
-            String saveFileName = genSaveFileName(extName);
-
-            System.out.println("uploadpath : " + uploadpath);
-            System.out.println("originFilename : " + originFilename);
-            System.out.println("extensionName : " + extName);
-            System.out.println("size : " + size);
-            System.out.println("saveFileName : " + saveFileName);
-
-            if(!multi.isEmpty())//파일 업로드
-            {
-                File file = new File(uploadpath, saveFileName);
-                multi.transferTo(file);
-
-                model.addAttribute("filename", saveFileName);
-                model.addAttribute("uploadPath", file.getAbsolutePath());
-            }
-        }catch(Exception e)
-        {
-            System.out.println(e);
-        }
-        return "redirect:demo"; //추후 결과창으로 이동, 혹은 결과와 같이 이동
+        return "page/result_page";
     }
 
-    // 현재 시간을 기준으로 파일 이름 생성
-    private String genSaveFileName(String extName) {
-        String fileName = "";
+    @RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
+    public String uploadForm(MultipartFile file, Model model, RedirectAttributes attributes) throws Exception {
 
-        Calendar calendar = Calendar.getInstance();
-        fileName += calendar.get(Calendar.YEAR);
-        fileName += calendar.get(Calendar.MONTH);
-        fileName += calendar.get(Calendar.DATE);
-        fileName += calendar.get(Calendar.HOUR);
-        fileName += calendar.get(Calendar.MINUTE);
-        fileName += calendar.get(Calendar.SECOND);
-        fileName += calendar.get(Calendar.MILLISECOND);
-        fileName += extName;
+        logger.info("originalName: " + file.getOriginalFilename());
+        logger.info("size: " + file.getSize());
+        logger.info("contentType: " + file.getContentType());
 
-        return fileName;
+        String savedName = uploadFile(file.getOriginalFilename(), file.getBytes());
+        String server_Path= path2+savedName;
+        logger.info("server_Path: "+ server_Path);
+        logger.info("savedName: "+ savedName);
+
+        //model.addAttribute("savedName", savedName);
+        //model.addAttribute("savePath",server_Path);
+        attributes.addFlashAttribute("savedName", savedName);
+        attributes.addFlashAttribute("savePath",server_Path);
+        return "redirect:/result";
+    }
+
+    private String uploadFile(String originalName, byte[] fileData) throws Exception {
+        UUID uid = UUID.randomUUID();
+        String savedName = uid.toString() + "_" + originalName;
+
+        File target = new File(path, savedName);
+
+        // FileCopyUtils : org.springframework.util 에 있음
+        FileCopyUtils.copy(fileData, target);
+
+        return savedName;
     }
 }

@@ -33,14 +33,14 @@
         </div>
     </section>
     <section class="image input">
-        <form id="image_up">
+        <form id="image_up" th:action="@{/uploadForm}" method="post" enctype="multipart/form-data">
         <div class="container">
             <div>
                 <label for="formFileLg" class="form-label">input image</label>
-                <input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/*">
+                <input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/*" name="file">
             </div>
             <div id="Imagesubmit" class="d-grid gap-2 col-6 mx-auto">
-                <button type="button" class="btn btn-primary" onclick="javascript:fn_submit()" >분석 요청</button>
+                <button type="submit" class="btn btn-primary" >분석 요청</button>
             </div>
         </div>
         </form>
@@ -49,7 +49,7 @@
             src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous"></script>
-    <script th:src="@{/javascript/demo_script/demo.js}"></script>
+    <script th:src="@{/javascript/demo_script/demo_script.js}"></script>
     <!-- /.main 끝 -->
 </div>
 </html>

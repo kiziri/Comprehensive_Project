@@ -21,15 +21,4 @@ public class Controller {
     public String join(Model model) {
         return "page/join_page";
     }
-
-   //@RequestMapping("/demo")
-   // public String demo(Model model) {
-   //     return "page/demo_page";
-   //}
-
-    @RequestMapping("/result")
-    public String result(Model model) {
-        return "page/result_page";
-    }
-
 }
