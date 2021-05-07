@@ -1,2 +1,8 @@
-package aimproject.aim.controller;public class MemberForm {
+package aimproject.aim.controller;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
+public class MemberForm {
 }
