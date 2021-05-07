@@ -17,10 +17,10 @@
     <!-- /공통의 사용 라이브러리 및 헤더, 푸터 -->
 </head>
 
-<div th:insert="fragment/header :: heaferFragment"></div>
+<div th:replace="fragment/header :: heaferFragment"></div>
 
 <div layout:fragment="main_content"></div>
 
-<div th:insert="fragment/footer :: footerFragment"></div>
+<div th:replace="fragment/footer :: footerFragment"></div>
 
 </html>

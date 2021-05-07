@@ -12,9 +12,9 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-public class Membercontroller {
+public class MemberController {
 
-    
+
 
     @GetMapping("/join")
     public String join(Model model) {
