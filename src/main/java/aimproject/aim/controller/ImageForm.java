@@ -1,11 +1,7 @@
 package aimproject.aim.controller;
 
 import java.io.File;
-import java.util.Calendar;
 import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,17 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class UploadForm {
+public class ImageForm {
 
     private String path="C:\\Users\\yunhc\\Downloads";
     private String path2="C:\\Users\\yunhc\\Downloads\\";
-    private static final Logger logger = LoggerFactory.getLogger(UploadForm.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImageForm.class);
 
 
     @RequestMapping("/demo")
@@ -39,7 +33,7 @@ public class UploadForm {
         return "page/result_page";
     }
 
-    @RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
+    @RequestMapping(value = "/imageAnalysis", method = RequestMethod.POST)
     public String uploadForm(MultipartFile file, Model model, RedirectAttributes attributes) throws Exception {
 
         logger.info("originalName: " + file.getOriginalFilename());
