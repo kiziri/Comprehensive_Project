@@ -1,2 +1,10 @@
-package aimproject.aim.repository;public class MemberRepository {
+package aimproject.aim.repository;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@RequiredArgsConstructor
+public class MemberRepository {
+
 }
