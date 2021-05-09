@@ -32,4 +32,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<AnalysisHistory> histories = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Image image;
 }
