@@ -41,12 +41,11 @@ public class MemberService {
     /**
      * 로그인
      */
-    public boolean LoginMember(String id, String pass){
-        List<Member> findMembers = memberRepository.findByEmail(id);
-        if (!findMembers.isEmpty()) {
-            //존재하는 회원이라면
-            //비밀번호가 유효한지 확인
-            //유효하다면 true를 반환
+    public boolean LoginMember(Member member){
+
+        Member findMembers = memberRepository.findOne(member.getMemberId());
+        if (findMembers.getMemberPw().equals(member.getMemberPw())) {
+            return true;
         }
         return false;
     }

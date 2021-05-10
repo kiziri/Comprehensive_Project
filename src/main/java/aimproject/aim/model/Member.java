@@ -38,4 +38,13 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Image> images = new ArrayList<>();
+
+
+    // 비즈니스 로직 //
+    /**
+     * 비밀번호 일치 확인인
+    */
+    public boolean matchPassword(String memberPw) {
+        return this.memberPw.equals(memberPw);
+    }
 }
