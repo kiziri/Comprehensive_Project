@@ -8,9 +8,6 @@ import javax.validation.constraints.NotEmpty;
 @Getter @Setter
 public class MemberForm {
 
-    @NotEmpty(message = "회원 아이디는 필수 입니다.")
-    private Long memberId;
-
     @NotEmpty(message = "회원 이메일는 필수 입니다.")
     private String Email;
     
