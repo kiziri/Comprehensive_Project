@@ -5,6 +5,9 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
+  profiles:
+    include: oauth
+
   datasource:
     url:
     username: sa
