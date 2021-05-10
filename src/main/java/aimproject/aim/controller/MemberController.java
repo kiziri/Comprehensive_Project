@@ -26,6 +26,7 @@ public class MemberController {
 
     @PostMapping("/join")
     public String join(@Valid MemberForm form, BindingResult result) {
+
         if (result.hasErrors()) {
             return "page/join_page";
         }
@@ -34,7 +35,7 @@ public class MemberController {
         member.setMemberEmail(form.getEmail());
         member.setMemberPw(form.getPassword());
         member.setName(form.getName());
-        member.setNickName(form.getNickName());
+        member.setNickname(form.getNickname());
         member.setTelNumber(form.getTelNumber());
         member.setAddress(form.getAddress());
 
