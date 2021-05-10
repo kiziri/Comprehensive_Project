@@ -13,11 +13,11 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public void join(Member member) {       // 회원가입
+    public void save(Member member) {       // 회원가입
         em.persist(member);
     }
 
-    public Member findOne(String memberId) {
+    public Member findOne(Long memberId) {
         return em.find(Member.class, memberId);
     }
 
@@ -25,9 +25,9 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    public List<Member> findById(String memberId) {
-        return em.createQuery("select m from Member m where m.memberId = :memberId", Member.class)
-                .setParameter("memberId", memberId)
+    public List<Member> findByEmail(String memberEmail) {
+        return em.createQuery("select m from Member m where m.memberEmail = :memberEmail", Member.class)
+                .setParameter("memberEmail", memberEmail)
                 .getResultList();
     }
 }

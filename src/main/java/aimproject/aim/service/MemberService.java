@@ -19,8 +19,9 @@ public class MemberService {
      * 회원 가입
      */
     @Transactional
-    public String join(Member member) {
-        memberRepository.join(member);
+    public Long join(Member member) {
+        validateDuplicateMember(member);
+        memberRepository.save(member);
 
         return member.getMemberId();
     }
@@ -30,7 +31,7 @@ public class MemberService {
      */
     public void validateDuplicateMember(Member member) {
         // Exception
-        List<Member> findMembers = memberRepository.findById(member.getMemberId());
+        List<Member> findMembers = memberRepository.findByEmail(member.getMemberEmail());
 
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
@@ -52,7 +53,7 @@ public class MemberService {
     /**
      * 회원 단건 조회
      */
-    public Member findOne(String memberId) {
+    public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
 }
