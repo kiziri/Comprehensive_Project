@@ -16,34 +16,35 @@
         <div class="container first-content">
             <!-- Content here -->
             <div>
-                <form>
+                <form action="/join" th:object="${MemberForm}" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <div class="mb-3">
                         <label for="inputEmail" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelper">
+                        <input type="email" th:field="*{Member_email}" class="form-control" id="inputEmail" aria-describedby="emailHelper">
                         <div id="emailHelper" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="mb-3">
                         <label for="inputPassword">Password</label>
-                        <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock">
+                        <input type="password" th:field="*{Member_password}" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock">
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                         </small>
                     </div>
                     <div class="mb-3">
                         <label for="inputName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="inputName">
+                        <input type="text" th:field="*{Member_name}" class="form-control" id="inputName">
                     </div>
                     <div class="mb-3">
                         <label for="inputNickName" class="form-label">Nick Name</label>
-                        <input type="text" class="form-control" id="inputNickName">
+                        <input type="text" th:field="*{Member_nickname}" class="form-control" id="inputNickName">
                     </div>
                     <div class="mb-3">
                         <label for="inputTelephone" class="form-label">Telephone</label>
-                        <input type="text" class="form-control" id="inputTelephone" placeholder="010-1234-5678">
+                        <input type="text" th:field="*{Member_tel}" class="form-control" id="inputTelephone" placeholder="010-1234-5678">
                     </div>
                     <div class="mb-3">
                         <label for="inputAddress" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="서울특별시 강남구 ~~~">
+                        <input type="text" th:field="*{Member_add}" class="form-control" id="inputAddress" placeholder="서울특별시 강남구 ~~~">
                     </div>
                     <button type="submit" class="btn btn-primary">회원가입</button>
                 </form>

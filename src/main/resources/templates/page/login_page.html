@@ -16,15 +16,16 @@
         <div class="container first-content">
             <!-- Content here -->
             <div class="login-div">
-                <form class="login-form">
+                <form class="login-form" action="/login" method="post">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <div class="login-id-div mb-3">
-                        <label for="inputEmail" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelper">
+                        <label for="memberId" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="memberId" aria-describedby="emailHelper">
                         <div id="emailHelper" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="login-pw-div mb-3">
-                        <label for="inputPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="inputPassword">
+                        <label for="memberPw" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="memberPw">
                     </div>
                     <button type="submit" class="btn btn-primary">로그인</button>
                 </form>
