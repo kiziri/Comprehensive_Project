@@ -25,7 +25,7 @@ public class Member {
     private String name;
 
     @Column(name = "member_nickname")
-    private String nickName;
+    private String nickname;
 
     @Column(name = "member_telnumber")
     private String telNumber;

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Table(name = "analysis_histories")
+@Table(name = "analysis_history")
 @Getter @Setter
 public class AnalysisHistory {
 
