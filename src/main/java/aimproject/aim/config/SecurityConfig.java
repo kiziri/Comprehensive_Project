@@ -22,5 +22,5 @@ import java.io.IOException;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    }
+
 }
