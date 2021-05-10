@@ -12,12 +12,12 @@ import static javax.persistence.FetchType.LAZY;
 @Getter @Setter
 public class Image {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "image_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "member")
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToOne(mappedBy = "image", fetch = LAZY)
@@ -29,4 +29,10 @@ public class Image {
     
     private LocalDateTime date;         // 이미지 저장 시간
 
+
+    // 연관 관계 메서드 //
+    public void setMember(Member member) {
+        this.member = member;
+        member.getImages().add(this);
+    }
 }

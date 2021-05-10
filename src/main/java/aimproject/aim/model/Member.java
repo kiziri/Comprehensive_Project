@@ -36,6 +36,6 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<AnalysisHistory> histories = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Image image;
+    @OneToMany(mappedBy = "member")
+    private List<Image> images = new ArrayList<>();
 }
