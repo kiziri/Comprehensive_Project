@@ -47,7 +47,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="inputTelephone" class="form-label">Telephone</label>
-                        <input type="text" th:field="*{telNumber}" class="form-control" id="inputTelephone" placeholder="010-1234-5678"
+                        <input type="tel" th:field="*{telNumber}" class="form-control" id="inputTelephone"
+                               pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-1234-5678"
                                th:class="${#fields.hasErrors('telNumber')}? 'form-controlfieldError' : 'form-control'">
                         <p th:if="${#fields.hasErrors('telNumber')}" th:errors="*{telNumber}">Incorrect date</p>>
                     </div>
