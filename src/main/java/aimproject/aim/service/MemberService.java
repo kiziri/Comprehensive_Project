@@ -31,7 +31,7 @@ public class MemberService {
      */
     public void validateDuplicateMember(Member member) {
         // Exception
-        List<Member> findMembers = memberRepository.findByEmail(member.getMemberEmail());
+        List<Member> findMembers = memberRepository.findByEmailForDuplicate(member.getMemberEmail());
 
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
@@ -63,5 +63,9 @@ public class MemberService {
      */
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
+    }
+
+    public Member findByEmail(String memberEmail) {
+        return memberRepository.findByEmail(memberEmail);
     }
 }
