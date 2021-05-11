@@ -15,6 +15,7 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,17 +33,18 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginForm form, Model model, BindingResult result) {
+    public String login(@Valid @ModelAttribute LoginForm form, Model model, BindingResult result) {
 
         if(result.hasErrors()) {
             return "page/login_page";
         }
 
-        log.info(form.getEmail());
-        Member member1 = new Member();
-        member1.setMemberEmail(form.getEmail());
-        Member member = memberService.findByEmail(member1.getMemberEmail());
-        log.info(member.getMemberId().toString());
+        log.info(form.getMemberEmail());
+        Member member = memberService.findByEmail(form.getMemberEmail());
+        log.info("1 : " + member);
+        log.info("1 : " + member.getMemberId());
+        log.info("1 : " + member.getMemberEmail());
+        log.info("1 : " + member.getNickname());
 
         boolean isLoggedIn = memberService.LoginMember(member);
         if(isLoggedIn) {

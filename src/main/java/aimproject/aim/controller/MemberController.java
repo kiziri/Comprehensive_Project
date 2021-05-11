@@ -36,8 +36,8 @@ public class MemberController {
         }
 
         Member member = new Member();
-        member.setMemberEmail(form.getEmail());
-        member.setMemberPw(form.getPassword());
+        member.setMemberEmail(form.getMemberEmail());
+        member.setMemberPw(form.getMemberPw());
         member.setName(form.getName());
         member.setNickname(form.getNickname());
         member.setTelNumber(form.getTelNumber());
