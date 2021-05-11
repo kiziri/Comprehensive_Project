@@ -19,16 +19,16 @@
                 <form action="/join" th:object="${memberForm}" method="post">
                     <div class="mb-3">
                         <label for="inputEmail" class="form-label">Email Address</label>
-                        <input type="email" th:field="*{email}" class="form-control" id="inputEmail" aria-describedby="emailHelper"
-                               th:class="${#fields.hasErrors('email')}? 'form-controlfieldError' : 'form-control'">
-                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect date</p>
+                        <input type="email" th:field="*{memberEmail}" class="form-control" id="inputEmail" aria-describedby="emailHelper"
+                               th:class="${#fields.hasErrors('memberEmail')}? 'form-controlfieldError' : 'form-control'">
+                        <p th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}">Incorrect date</p>
                         <div id="emailHelper" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="mb-3">
                         <label for="inputPassword">Password</label>
-                        <input type="password" th:field="*{password}" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock"
-                               th:class="${#fields.hasErrors('password')}? 'form-controlfieldError' : 'form-control'">
-                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>>
+                        <input type="password" th:field="*{memberPw}" id="inputPassword" class="form-control" aria-describedby="passwordHelpBlock"
+                               th:class="${#fields.hasErrors('memberPw')}? 'form-controlfieldError' : 'form-control'">
+                        <p th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}">Incorrect date</p>>
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                         </small>

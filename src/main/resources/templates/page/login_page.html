@@ -19,16 +19,18 @@
                 <form class="login-form" action="/login" th:object="${loginForm}" method="post">
                     <div class="login-id-div mb-3">
                         <label for="email" class="form-label">Email Address</label>
-                        <input type="email" th:field="*{email}" class="form-control" id="email" aria-describedby="emailHelper"
-                               th:class="${#fields.hasErrors('email')}? 'form-controlfieldError' : 'form-control'">
-                        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect date</p>
+                        <input type="email" th:field="*{memberEmail}" class="form-control" id="email"
+                               aria-describedby="emailHelper"
+                               th:class="${#fields.hasErrors('memberEmail')}? 'form-controlfieldError' : 'form-control'">
+                        <p th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}">Incorrect date</p>
                         <div id="emailHelper" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="login-pw-div mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" th:field="*{password}" class="form-control" id="password" aria-describedby="passwordHelpBlock"
-                               th:class="${#fields.hasErrors('password')}? 'form-controlfieldError' : 'form-control'">
-                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>>>
+                        <input type="password" th:field="*{memberPw}" class="form-control" id="password"
+                               aria-describedby="passwordHelpBlock"
+                               th:class="${#fields.hasErrors('memberPw')}? 'form-controlfieldError' : 'form-control'">
+                        <p th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}">Incorrect date</p>>>
                     </div>
                     <button type="submit" class="btn btn-primary">로그인</button>
                 </form>
