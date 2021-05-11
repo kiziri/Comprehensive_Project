@@ -25,9 +25,13 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    public List<Member> findByEmail(String memberEmail) {
+    public Member findByEmail(String memberEmail) {
         return em.createQuery("select m from Member m where m.memberEmail = :memberEmail", Member.class)
-                .setParameter("memberEmail", memberEmail)
-                .getResultList();
+                .setParameter("memberEmail", memberEmail).getSingleResult();
+    }
+
+    public List<Member> findByEmailForDuplicate(String memberEmail) {
+        return em.createQuery("select m from Member m where m.memberEmail = :memberEmail", Member.class)
+                .setParameter("memberEmail", memberEmail).getResultList();
     }
 }
