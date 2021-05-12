@@ -18,7 +18,9 @@
                     </ul>
                     <ul class="navbar-nav navUserButton">
                         <li class="nav-item">
-                            <span th:text="${session.member}"><span th:if="${session.member}">님 환영합니다</span></span>
+                            <span th:if="${session.member}">
+                                <span th:text="${session.member}">님 환영합니다</span>
+                            </span>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active nav-login-button" aria-current="page" href="/login"
