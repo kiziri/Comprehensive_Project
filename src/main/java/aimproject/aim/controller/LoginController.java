@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,6 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes({"Id","Nick","Email"})
 @Slf4j
 public class LoginController {
 
@@ -38,21 +36,17 @@ public class LoginController {
             return "page/login_page";
         }
 
-        log.info(form.getMemberEmail());
-        Member member = memberService.findByEmail(form.getMemberEmail());
+        log.info(form.getMemberId());
+        Member member = memberService.findByLoginInfo(form.getMemberId(), form.getMemberPw());
         log.info("1 : " + member);
         log.info("1 : " + member.getMemberId());
-        log.info("1 : " + member.getMemberEmail());
-        log.info("1 : " + member.getNickname());
+        log.info("1 : " + member.getName());
         log.info("1 : " + member.getNickname());
 
         boolean isLoggedIn = memberService.LoginMember(member);
         if(isLoggedIn) {
             HttpSession httpSession = request.getSession(true);
-            httpSession.setAttribute("Id", member.getMemberId());
-            httpSession.setAttribute("nick", member.getNickname());
-            httpSession.setAttribute("Email", member.getMemberEmail());
-            //model.addAttribute("member", member);
+            httpSession.setAttribute("member", member);
             return "redirect:/";
         }
 

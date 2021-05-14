@@ -18,25 +18,25 @@
                     </ul>
                     <ul class="navbar-nav navUserButton">
                         <li class="nav-item">
-                            <span th:if="${session.Id}">
-                                <span th:text="${session.nick}">님 환영합니다</span>
+                            <span th:if="${session.member.memberId}">
+                                <p th:text="${session.member.nickname}">환영합니다</p>
                             </span>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active nav-login-button" aria-current="page" href="/login"
-                               th:if="${session.Id==null}">로그인</a>
+                               th:if="${session.member.memberId==null}">로그인</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active navUserRegisterButton" aria-current="page" href="/join"
-                               th:if="${session.Id==null}">회원가입</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active navUserLogoutButton" aria-current="page"
-                               th:if="${session.Id}" href="/logout">로그아웃</a>
+                               th:if="${session.member.memberId==null}">회원가입</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active navUserMyPageButton" aria-current="page"
-                               th:if="${session.Id}" href="#">내정보</a>
+                               th:if="${session.member.memberId}" href="#">내정보</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active navUserLogoutButton" aria-current="page"
+                               th:if="${session.member.memberId}" href="/logout">로그아웃</a>
                         </li>
                     </ul>
                 </div>

@@ -18,19 +18,19 @@
             <div class="login-div">
                 <form class="login-form" action="/login" th:object="${loginForm}" method="post">
                     <div class="login-id-div mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" th:field="*{memberEmail}" class="form-control" id="email"
+                        <label for="memberEmail" class="form-label">Email Address</label>
+                        <input type="email" th:field="*{memberEmail}" class="form-control" id="memberEmail"
                                aria-describedby="emailHelper"
                                th:class="${#fields.hasErrors('memberEmail')}? 'form-controlfieldError' : 'form-control'">
                         <p th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}">Incorrect date</p>
                         <div id="emailHelper" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="login-pw-div mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" th:field="*{memberPw}" class="form-control" id="password"
+                        <label for="memberPw" class="form-label">Password</label>
+                        <input type="password" th:field="*{memberPw}" class="form-control" id="memberPw"
                                aria-describedby="passwordHelpBlock"
                                th:class="${#fields.hasErrors('memberPw')}? 'form-controlfieldError' : 'form-control'">
-                        <p th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}">Incorrect date</p>>>
+                        <p th:if="${#fields.hasErrors('memberPw')}" th:errors="*{memberPw}">Incorrect date</p>
                     </div>
                     <button type="submit" class="btn btn-primary">로그인</button>
                 </form>
