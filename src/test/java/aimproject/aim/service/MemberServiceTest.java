@@ -25,10 +25,10 @@ public class MemberServiceTest {
 
         // given
         Member member = new Member();
-        member.setMemberEmail("kim");
+        member.setMemberId("kim");
 
         // when
-        Long savedId = memberService.join(member);
+        String savedId = memberService.join(member);
 
         // then
         assertEquals(member, memberRepository.findOne(savedId));
@@ -40,10 +40,10 @@ public class MemberServiceTest {
 
         // given
         Member member1 = new Member();
-        member1.setMemberEmail("kim");
+        member1.setMemberId("kim");
 
         Member member2 = new Member();
-        member2.setMemberEmail("kim");
+        member2.setMemberId("kim");
 
 
         // when
