@@ -7,8 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
 
 import static org.junit.Assert.*;
 
@@ -17,41 +18,34 @@ import static org.junit.Assert.*;
 @Transactional
 public class MemberServiceTest {
 
+    @Autowired EntityManager em;
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
 
     @Test
-    public void 회원가입() throws Exception {
+    public void 로그인확인() throws Exception {
 
         // given
-        Member member = new Member();
-        member.setMemberId("kim");
+        Member member = createMember();
 
         // when
-        String savedId = memberService.join(member);
+        boolean isLoggedIn = memberService.LoginMember(member.getMemberId(), member.getMemberPw());
+
 
         // then
-        assertEquals(member, memberRepository.findOne(savedId));
+        assertEquals("입력한 비밀번호와 조회한 비밀번호가 일치해야 한다.", isLoggedIn, true);
 
     }
-    
-    @Test(expected = IllegalStateException.class)
-    public void 중복회원가입() throws Exception {
 
-        // given
-        Member member1 = new Member();
-        member1.setMemberId("kim");
-
-        Member member2 = new Member();
-        member2.setMemberId("kim");
-
-
-        // when
-        memberService.join(member1);
-        memberService.join(member2);    // 예외 발생 필요
-
-        // then
-        fail("예외가 발생해야 한다.");
-        
+    private Member createMember() {
+        Member member = new Member();
+        member.setName("member1");
+        member.setMemberId("kim");
+        member.setMemberPw("123");
+        member.setNickname("kim");
+        member.setTelNumber("123-1234-1234");
+        member.setAddress("서울가123-123");
+        em.persist(member);
+        return member;
     }
 }

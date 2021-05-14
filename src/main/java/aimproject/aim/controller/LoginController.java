@@ -43,7 +43,7 @@ public class LoginController {
         log.info("1 : " + member.getName());
         log.info("1 : " + member.getNickname());
 
-        boolean isLoggedIn = memberService.LoginMember(member);
+        boolean isLoggedIn = memberService.LoginMember(form.getMemberId(), form.getMemberPw());
         if(isLoggedIn) {
             HttpSession httpSession = request.getSession(true);
             httpSession.setAttribute("member", member);

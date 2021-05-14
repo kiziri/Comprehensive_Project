@@ -41,10 +41,10 @@ public class MemberService {
     /**
      * 로그인
      */
-    public boolean LoginMember(Member member){
+    public boolean LoginMember(String memberId, String memberPw){
 
-        Member findMember = memberRepository.findOne(member.getMemberId());
-        if (findMember.getMemberPw().equals(member.getMemberPw())) {
+        Member findMember = memberRepository.findOne(memberId);
+        if (findMember.matchPassword(memberPw)) {
             return true;
         }
         return false;
