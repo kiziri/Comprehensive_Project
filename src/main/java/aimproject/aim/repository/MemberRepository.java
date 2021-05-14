@@ -17,7 +17,7 @@ public class MemberRepository {
         em.persist(member);
     }
 
-    public Member findOne(Long memberId) {
+    public Member findOne(String memberId) {
         return em.find(Member.class, memberId);
     }
 
@@ -25,13 +25,21 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    public Member findByEmail(String memberEmail) {
-        return em.createQuery("select m from Member m where m.memberEmail = :memberEmail", Member.class)
-                .setParameter("memberEmail", memberEmail).getSingleResult();
+    public Member findById(String memberId) {
+        return em.createQuery("select m from Member m where m.memberId = :memberId", Member.class)
+                .setParameter("memberId", memberId).getSingleResult();
+    }
+
+    public Member findByLoginInfo(String memberId, String memberPw) {
+        return em.createQuery("select m from Member m where m.memberId = :memberId " +
+                                        "and m.memberPw = :memberPw", Member.class)
+                .setParameter("memberId", memberId)
+                .setParameter("memberPw", memberPw)
+                .getSingleResult();
     }
 
     public List<Member> findByEmailForDuplicate(String memberEmail) {
-        return em.createQuery("select m from Member m where m.memberEmail = :memberEmail", Member.class)
+        return em.createQuery("select m from Member m where m.memberId = :memberEmail", Member.class)
                 .setParameter("memberEmail", memberEmail).getResultList();
     }
 }

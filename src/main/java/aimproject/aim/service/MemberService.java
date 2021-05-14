@@ -19,7 +19,7 @@ public class MemberService {
      * 회원 가입
      */
     @Transactional
-    public Long join(Member member) {
+    public String join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
 
@@ -31,7 +31,7 @@ public class MemberService {
      */
     public void validateDuplicateMember(Member member) {
         // Exception
-        List<Member> findMembers = memberRepository.findByEmailForDuplicate(member.getMemberEmail());
+        List<Member> findMembers = memberRepository.findByEmailForDuplicate(member.getMemberId());
 
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
@@ -43,8 +43,8 @@ public class MemberService {
      */
     public boolean LoginMember(Member member){
 
-        Member findMembers = memberRepository.findOne(member.getMemberId());
-        if (findMembers.getMemberPw().equals(member.getMemberPw())) {
+        Member findMember = memberRepository.findOne(member.getMemberId());
+        if (findMember.getMemberPw().equals(member.getMemberPw())) {
             return true;
         }
         return false;
@@ -61,11 +61,15 @@ public class MemberService {
     /**
      * 회원 단건 조회
      */
-    public Member findOne(Long memberId) {
+    public Member findOne(String memberId) {
         return memberRepository.findOne(memberId);
     }
 
-    public Member findByEmail(String memberEmail) {
-        return memberRepository.findByEmail(memberEmail);
+    public Member findById(String memberId) {
+        return memberRepository.findById(memberId);
+    }
+
+    public Member findByLoginInfo(String memberId, String memberPw) {
+        return memberRepository.findByLoginInfo(memberId, memberPw);
     }
 }
