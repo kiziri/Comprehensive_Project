@@ -11,12 +11,9 @@ import java.util.List;
 @Getter @Setter
 public class Member {
 
-    @Id @GeneratedValue
-    @Column(name = "member_id")
-    private Long memberId;      // 테이블 기본키
-
-    @Column(name = "member_email")
-    private String memberEmail; // 회원 로그인 아이디
+    @Id
+    @Column(name = "member_id") // 회원 로그인 아이디
+    private String memberId;      // 테이블 기본키
 
     @Column(name = "member_pw")
     private String memberPw;
