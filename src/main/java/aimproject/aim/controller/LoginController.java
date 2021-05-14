@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes("member")
+@SessionAttributes({"Id","Nick","Email"})
 @Slf4j
 public class LoginController {
 
@@ -30,7 +32,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid LoginForm form, Model model, BindingResult result) {
+    public String login(@Valid LoginForm form, Model model, BindingResult result, HttpServletRequest request) {
 
         if(result.hasErrors()) {
             return "page/login_page";
@@ -46,7 +48,11 @@ public class LoginController {
 
         boolean isLoggedIn = memberService.LoginMember(member);
         if(isLoggedIn) {
-            model.addAttribute("member", member);
+            HttpSession httpSession = request.getSession(true);
+            httpSession.setAttribute("Id", member.getMemberId());
+            httpSession.setAttribute("nick", member.getNickname());
+            httpSession.setAttribute("Email", member.getMemberEmail());
+            //model.addAttribute("member", member);
             return "redirect:/";
         }
 
@@ -54,7 +60,11 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout(SessionStatus sessionStatus) {
+    public String logout(SessionStatus sessionStatus, HttpServletRequest request) {
+        HttpSession httpSession = request.getSession(false);
+        if(httpSession!=null){
+            httpSession.invalidate();
+        }
         //서비스 멤버 삭제
         sessionStatus.setComplete();
         return "redirect:/";//메인으로 이동
