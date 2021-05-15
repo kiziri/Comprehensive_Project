@@ -19,10 +19,10 @@
                 <form class="login-form" action="/login" th:object="${loginForm}" method="post">
                     <div class="login-id-div mb-3">
                         <label for="memberEmail" class="form-label">Email Address</label>
-                        <input type="email" th:field="*{memberEmail}" class="form-control" id="memberEmail"
+                        <input type="email" th:field="*{memberId}" class="form-control" id="memberEmail"
                                aria-describedby="emailHelper"
-                               th:class="${#fields.hasErrors('memberEmail')}? 'form-controlfieldError' : 'form-control'">
-                        <p th:if="${#fields.hasErrors('memberEmail')}" th:errors="*{memberEmail}">Incorrect date</p>
+                               th:class="${#fields.hasErrors('memberId')}? 'form-controlfieldError' : 'form-control'">
+                        <p th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}">Incorrect date</p>
                         <div id="emailHelper" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="login-pw-div mb-3">
