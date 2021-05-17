@@ -23,8 +23,7 @@ import javax.validation.Valid;
 public class LoginController implements HttpSessionAttributeListener {
 
     private final MemberService memberService;
-
-
+    
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -39,15 +38,7 @@ public class LoginController implements HttpSessionAttributeListener {
             return "page/login_page";
         }
 
-
-
-        log.info(form.getMemberId());
         Member member = memberService.findByLoginInfo(form.getMemberId(), form.getMemberPw());
-        log.info("1 : " + member);
-        log.info("1 : " + member.getMemberId());
-        log.info("1 : " + member.getName());
-        log.info("1 : " + member.getNickname());
-
 
         boolean isLoggedIn = memberService.LoginMember(form.getMemberId(), form.getMemberPw());
         if (isLoggedIn) {
@@ -68,4 +59,5 @@ public class LoginController implements HttpSessionAttributeListener {
         sessionStatus.setComplete();
         return "redirect:/";//메인으로 이동
     }
+
 }
