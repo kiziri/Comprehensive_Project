@@ -14,11 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class ImageForm {
+public class ImageController {
 
     private String path="C:\\Users\\yunhc\\Downloads";
     private String path2="C:\\Users\\yunhc\\Downloads\\";
-    private static final Logger logger = LoggerFactory.getLogger(ImageForm.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
 
 
     @RequestMapping("/demo")
