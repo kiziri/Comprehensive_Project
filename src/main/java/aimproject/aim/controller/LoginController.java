@@ -14,7 +14,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionEvent;
 import javax.validation.Valid;
 
 @Controller
@@ -23,7 +22,7 @@ import javax.validation.Valid;
 public class LoginController implements HttpSessionAttributeListener {
 
     private final MemberService memberService;
-    
+
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -38,13 +37,13 @@ public class LoginController implements HttpSessionAttributeListener {
             return "page/login_page";
         }
 
-        Member member = memberService.findByLoginInfo(form.getMemberId(), form.getMemberPw());
-
         boolean isLoggedIn = memberService.LoginMember(form.getMemberId(), form.getMemberPw());
         if (isLoggedIn) {
-             HttpSession httpSession = request.getSession(true);
-             httpSession.setAttribute("member", member);
-                return "redirect:/";
+            Member member = memberService.findByLoginInfo(form.getMemberId(), form.getMemberPw());
+            HttpSession httpSession = request.getSession(true);
+            httpSession.setAttribute("member", member);
+            model.addAttribute("member", member);
+            return "redirect:/";
         }
             return "redirect:/page/login_page";
     }

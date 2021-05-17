@@ -44,9 +44,13 @@ public class MemberService {
     public boolean LoginMember(String memberId, String memberPw){
 
         Member findMember = memberRepository.findOne(memberId);
-        if (findMember.matchPassword(memberPw)) {
-            return true;
+
+        if (findMember != null) {
+            if (findMember.matchPassword(memberPw)) {
+                return true;
+            }
         }
+
         return false;
     }
 
