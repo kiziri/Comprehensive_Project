@@ -21,11 +21,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/main", "/", "/beans", "/beans/picture/**", "/beans/**")
-                .excludePathPatterns("/member/form", "/login", "/login/form", "/login/check")
-                .excludePathPatterns("/error", "/error/**", "/email", "/email/**")
-                .excludePathPatterns("/css/**", "/fonts/**", "/plugin/**", "/resources/**",
-                        "/scripts/**", "/images/**", "/javascript/**", "/login/form", "/join", "/logout");
+                .excludePathPatterns("/")
+                .excludePathPatterns("/css/**", "/resources/**","/images/**", "/javascript/**")
+                .excludePathPatterns("/imageAnalysis", "/result", "/login", "/join", "/logout")
+                .excludePathPatterns("/member/form", "/login", "/login/form");
     }
 
     @Override
