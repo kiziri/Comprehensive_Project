@@ -1,6 +1,5 @@
 package aimproject.aim.controller;
 
-import aimproject.aim.config.SessionConfig;
 import aimproject.aim.model.Member;
 import aimproject.aim.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +13,17 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionEvent;
 import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class LoginController {
+public class LoginController implements HttpSessionAttributeListener {
 
     private final MemberService memberService;
+
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -33,11 +35,11 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@Valid LoginForm form, Model model, BindingResult result, HttpServletRequest request) {
 
-
-
         if(result.hasErrors()) {
             return "page/login_page";
         }
+
+
 
         log.info(form.getMemberId());
         Member member = memberService.findByLoginInfo(form.getMemberId(), form.getMemberPw());
@@ -46,25 +48,14 @@ public class LoginController {
         log.info("1 : " + member.getName());
         log.info("1 : " + member.getNickname());
 
-        String id = (String) request.getParameter("member");
-        System.out.println(id);
+
         boolean isLoggedIn = memberService.LoginMember(form.getMemberId(), form.getMemberPw());
-        if(id!=null) {
-            String userId = SessionConfig.getSessionidCheck("member_id", id);
-            System.out.println(id + " : " +userId);
-            if (isLoggedIn) {
-                HttpSession httpSession = request.getSession(true);
-                httpSession.setAttribute("member", member);
+        if (isLoggedIn) {
+             HttpSession httpSession = request.getSession(true);
+             httpSession.setAttribute("member", member);
                 return "redirect:/";
-            }
-        }else {
-            if (isLoggedIn) {
-                HttpSession httpSession = request.getSession(true);
-                httpSession.setAttribute("member", member);
-                return "redirect:/";
-            }
         }
-        return "redirect:/page/login_page";
+            return "redirect:/page/login_page";
     }
 
     @GetMapping("/logout")
