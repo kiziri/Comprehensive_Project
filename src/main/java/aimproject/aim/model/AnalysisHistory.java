@@ -15,7 +15,7 @@ public class AnalysisHistory {
 
     @Id @GeneratedValue
     @Column(name = "history_id")
-    private Long id;
+    private Long historyId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -25,7 +25,7 @@ public class AnalysisHistory {
     @JoinColumn(name = "image_id")
     private Image image;            // 분석 기록 당 이미지 하나 이미지 정보
 
-    private LocalDateTime analysisDate;     // 분석 요청 시간
+    private LocalDateTime historyDate;     // 분석 요청 시간
 
 
     // 연관 관계 메서드 //
@@ -45,7 +45,7 @@ public class AnalysisHistory {
         analysisHistory.setMember(member);
         analysisHistory.setImage(image);
 
-        analysisHistory.setAnalysisDate(LocalDateTime.now());
+        analysisHistory.setHistoryDate(LocalDateTime.now());
 
         return analysisHistory;
     }

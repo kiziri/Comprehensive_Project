@@ -14,7 +14,7 @@ public class Image {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "image_id")
-    private Long id;
+    private Long imageId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -27,7 +27,7 @@ public class Image {
 
     private String imagePath;
     
-    private LocalDateTime date;         // 이미지 저장 시간
+    private LocalDateTime imageDate;         // 이미지 저장 시간
 
 
     // 연관 관계 메서드 //
