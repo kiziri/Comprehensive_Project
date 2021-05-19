@@ -2,6 +2,7 @@ package aimproject.aim.repository;
 
 import aimproject.aim.model.Image;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ImageRepository {
 
     private final EntityManager em;
@@ -19,6 +21,7 @@ public class ImageRepository {
      */
     public void save(Image image) {
         em.persist(image);
+        log.info(""+image.getImageId());
     }
 
     /**
