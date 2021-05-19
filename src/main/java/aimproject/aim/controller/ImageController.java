@@ -1,35 +1,32 @@
 package aimproject.aim.controller;
 
-import java.io.*;
-import java.util.UUID;
-
-import org.apache.coyote.Response;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import aimproject.aim.service.ImageService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
+@Slf4j
 public class ImageController {
 
-
-    private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
-
+    private final ImageService imageService;
 
     @RequestMapping("/demo")
     public String demo(Model model) {
@@ -41,21 +38,21 @@ public class ImageController {
         return "page/result_page";
     }
 
-    @RequestMapping(value = "/imageAnalysis", method = RequestMethod.POST)
-    public String uploadForm(MultipartFile file, Model model, RedirectAttributes attributes, HttpServletRequest request) throws Exception {
+    @PostMapping("/image/analysis")
+    public String imageAnalysis(MultipartFile file, Model model, RedirectAttributes attributes, HttpServletRequest request) throws Exception {
 
-        String path = "src/main/resources/static/imageUpload";
+        String path = "src/main/resources/static/imageupload";
         String path2 = path + "/";
-        String spath = "static/imageUpload/";
+        String spath = "static/imageupload/";
 
-        logger.info("originalName: " + file.getOriginalFilename());
-        logger.info("size: " + file.getSize());
-        logger.info("contentType: " + file.getContentType());
+        log.info("originalName: " + file.getOriginalFilename());
+        log.info("size: " + file.getSize());
+        log.info("contentType: " + file.getContentType());
 
         String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), path);
         String server_Path = spath + savedName;
-        logger.info("server_Path: " + server_Path);
-        logger.info("savedName: " + savedName);
+        log.info("server_Path: " + server_Path);
+        log.info("savedName: " + savedName);
 
         //model.addAttribute("savedName", savedName);
         //model.addAttribute("savePath",server_Path);
