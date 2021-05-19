@@ -25,6 +25,8 @@ public class Image {
 
     private String imageName;
 
+    private String imageOriginName;
+
     private String imagePath;
     
     private LocalDateTime imageDate;         // 이미지 저장 시간
@@ -35,4 +37,5 @@ public class Image {
         this.member = member;
         member.getImages().add(this);
     }
+
 }
