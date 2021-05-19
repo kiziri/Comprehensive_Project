@@ -22,18 +22,16 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/")
-                .excludePathPatterns("/css/**", "/resources/**","/images/**", "/javascript/**")
+                .excludePathPatterns("/css/**", "/resources/**","/static/imageUpload/**", "/javascript/**")
                 .excludePathPatterns("/imageAnalysis", "/result", "/login", "/join", "/logout")
-                .excludePathPatterns("/member/form", "/login", "/login/form");
+                .excludePathPatterns("/member/form", "/login", "/login/form", "/image/**");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry.addResourceHandler("/static/**")
-                .addResourceLocations("/css/**")
-                .addResourceLocations("/css/common/**")
-                .addResourceLocations("/javascript/**")
+                .addResourceLocations("classpath:/static/")
                 .setCachePeriod(20);
     }
 }
