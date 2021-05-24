@@ -40,20 +40,24 @@ public class ImageController {
 
     @PostMapping("/image/analysis")
     public String imageAnalysis(MultipartFile file, Model model, RedirectAttributes attributes, HttpServletRequest request) throws Exception {
-
+        //저장 폴더 주소
         String path = "src/main/resources/static/imageupload";
-        String path2 = path + "/";
+        //저장 경로 및 추후 불러오는 경로 주소
         String sPath = "static/imageupload/";
 
+        //파일 속성 출력
         log.info("originalName: " + file.getOriginalFilename());
         log.info("size: " + file.getSize());
         log.info("contentType: " + file.getContentType());
 
+        //파일 저장 이름 및 최종 경로 설정
         String savedName = setImageNameByUUID(file.getOriginalFilename(), file.getBytes(), path);
         String server_Path = sPath + savedName;
+        //해당 되는 경로및 이름 출력
         log.info("server_Path: " + server_Path);
         log.info("savedName: " + savedName);
 
+        //해당 이미지명 및 경로 저장
         //model.addAttribute("savedName", savedName);
         //model.addAttribute("savePath",server_Path);
         attributes.addFlashAttribute("savedName", savedName);
@@ -74,11 +78,14 @@ public class ImageController {
         return imageName;
     }
 
+    //프론트 이미지 출력
     @GetMapping(value = "/static/imageUpload/{imagename}")
     public void LoadImage(@PathVariable("imagename") String imagename, HttpServletResponse response) {
+        //이미지 경로 지정
         File image = new File("src/main/resources/static/imageUpload/" + imagename);
         int cur;
         try {
+            //이미지를 스트림으로 전송
             FileInputStream fileIn = new FileInputStream(image);
             BufferedInputStream bufIn = new BufferedInputStream(fileIn);
             ServletOutputStream ostream = response.getOutputStream();
