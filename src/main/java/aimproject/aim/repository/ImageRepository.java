@@ -52,22 +52,11 @@ public class ImageRepository {
     /**
      * 회원 요청 이미지, 이미지이름과 단건 조회
      */
-    public Image findByImageName(String memberId, Long imageId) {
+    public Image findByImageName(String memberId, String imageName) {
         return em.createQuery("select i from Image i where i.member.memberId =:memberId " +
-                "and i.imageId = :imageId", Image.class)
+                "and i.imageName = :imageName", Image.class)
                 .setParameter("memberId", memberId)
-                .setParameter("imageId", imageId)
-                .getSingleResult();
-    }
-
-    /**
-     * 회원 요청 이미지, 이미지 날짜 단건 조회
-     */
-    public Image findByImageDate(String memberId, LocalDateTime imageDate) {
-        return em.createQuery("select i from Image i where i.member.memberId =:memberId " +
-                "and i.imageDate = :imageDate", Image.class)
-                .setParameter("memberId", memberId)
-                .setParameter("imageDate", imageDate)
+                .setParameter("imageName", imageName)
                 .getSingleResult();
     }
 }
