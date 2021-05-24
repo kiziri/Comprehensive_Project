@@ -1,5 +1,7 @@
 package aimproject.aim.controller;
 
+import aimproject.aim.model.Image;
+import aimproject.aim.model.Member;
 import aimproject.aim.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,44 +41,52 @@ public class ImageController {
     }
 
     @PostMapping("/image/analysis")
-    public String imageAnalysis(MultipartFile file, Model model, RedirectAttributes attributes, HttpServletRequest request) throws Exception {
-        //저장 폴더 주소
+    public String imageAnalysis(ImageForm form, MultipartFile file, Model model, RedirectAttributes attributes,
+                                HttpServletRequest request) throws Exception {
+        // 저장 폴더 주소
         String path = "src/main/resources/static/imageupload";
-        //저장 경로 및 추후 불러오는 경로 주소
+        // 저장 경로 및 추후 불러오는 경로 주소
         String sPath = "static/imageupload/";
 
-        //파일 속성 출력
-        log.info("originalName: " + file.getOriginalFilename());
+        // 요청한 세션의 정보를 가져와 회원의 아이디 저장
+        Member member = (Member)request.getSession().getAttribute("member");
+        String memberId = member.getMemberId();
+
+        // 파일 속성 출력
+        log.info("imageOriginName: " + file.getOriginalFilename());
         log.info("size: " + file.getSize());
         log.info("contentType: " + file.getContentType());
 
-        //파일 저장 이름 및 최종 경로 설정
-        String savedName = setImageNameByUUID(file.getOriginalFilename(), file.getBytes(), path);
-        String server_Path = sPath + savedName;
-        //해당 되는 경로및 이름 출력
-        log.info("server_Path: " + server_Path);
-        log.info("savedName: " + savedName);
+        // UUID 설정된 이미지파일명 설정
+        String imageNameByUUID = imageService.setImageNameByUUID(form.getImageOriginName(), memberId);
 
-        //해당 이미지명 및 경로 저장
-        //model.addAttribute("savedName", savedName);
-        //model.addAttribute("savePath",server_Path);
-        attributes.addFlashAttribute("savedName", savedName);
-        attributes.addFlashAttribute("savePath", server_Path);
+        // 파일 저장 이름 및 최종 경로 설정
+        String serverPath = sPath + imageNameByUUID;
+        
+        Image image = new Image();
+        image.setImageName(imageNameByUUID);
+        image.setImageOriginName(form.getImageOriginName());
+        image.setImageDate(LocalDateTime.now());
+
+        // 해당 되는 경로및 이름 출력
+        log.info("serverPath: " + serverPath);
+        log.info("imageNameByUUID: " + imageNameByUUID);
+
+        // 해당 이미지명 및 경로 저장
+        // model.addAttribute("savedName", savedName);
+        // model.addAttribute("savePath",server_Path);
+        attributes.addFlashAttribute("savedName", imageNameByUUID);
+        attributes.addFlashAttribute("savePath", serverPath);
+
+        File target = new File(path, imageNameByUUID);  // 파일명과 경로 지정
+        // byte[] imageFile = file.getBytes();
+        // FileCopyUtils : org.springframework.util 에 있음
+        FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
+
         return "redirect:/result";
     }
 
-    private String setImageNameByUUID(String originalName, byte[] fileData, String path) throws Exception {
-        
-        UUID uid = UUID.randomUUID();   // UUID 랜덤 자동 생성 부문
-        String imageName = uid.toString() + "_" + originalName;
 
-        File target = new File(path, imageName);//파일명과 경로 지정
-
-        // FileCopyUtils : org.springframework.util 에 있음
-        FileCopyUtils.copy(fileData, target);//target에 해당하는 파일 생성
-
-        return imageName;
-    }
 
     //프론트 이미지 출력
     @GetMapping(value = "/static/imageUpload/{imagename}")
