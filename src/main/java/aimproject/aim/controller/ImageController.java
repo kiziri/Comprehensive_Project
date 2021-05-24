@@ -70,10 +70,10 @@ public class ImageController {
         UUID uid = UUID.randomUUID();   // UUID 랜덤 자동 생성 부문
         String imageName = uid.toString() + "_" + originalName;
 
-        File target = new File(path, imageName);
+        File target = new File(path, imageName);//파일명과 경로 지정
 
         // FileCopyUtils : org.springframework.util 에 있음
-        FileCopyUtils.copy(fileData, target);
+        FileCopyUtils.copy(fileData, target);//target에 해당하는 파일 생성
 
         return imageName;
     }
