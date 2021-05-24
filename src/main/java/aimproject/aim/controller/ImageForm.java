@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter @Setter
 public class ImageForm {
 
-    private String imageName;
+    private String imageOriginName;
 
 }
