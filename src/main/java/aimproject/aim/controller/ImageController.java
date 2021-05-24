@@ -43,14 +43,14 @@ public class ImageController {
 
         String path = "src/main/resources/static/imageupload";
         String path2 = path + "/";
-        String spath = "static/imageupload/";
+        String sPath = "static/imageupload/";
 
         log.info("originalName: " + file.getOriginalFilename());
         log.info("size: " + file.getSize());
         log.info("contentType: " + file.getContentType());
 
-        String savedName = uploadFile(file.getOriginalFilename(), file.getBytes(), path);
-        String server_Path = spath + savedName;
+        String savedName = setImageNameByUUID(file.getOriginalFilename(), file.getBytes(), path);
+        String server_Path = sPath + savedName;
         log.info("server_Path: " + server_Path);
         log.info("savedName: " + savedName);
 
@@ -61,16 +61,17 @@ public class ImageController {
         return "redirect:/result";
     }
 
-    private String uploadFile(String originalName, byte[] fileData, String path) throws Exception {
-        UUID uid = UUID.randomUUID();
-        String savedName = uid.toString() + "_" + originalName;
+    private String setImageNameByUUID(String originalName, byte[] fileData, String path) throws Exception {
+        
+        UUID uid = UUID.randomUUID();   // UUID 랜덤 자동 생성 부문
+        String imageName = uid.toString() + "_" + originalName;
 
-        File target = new File(path, savedName);
+        File target = new File(path, imageName);
 
         // FileCopyUtils : org.springframework.util 에 있음
         FileCopyUtils.copy(fileData, target);
 
-        return savedName;
+        return imageName;
     }
 
     @GetMapping(value = "/static/imageUpload/{imagename}")
