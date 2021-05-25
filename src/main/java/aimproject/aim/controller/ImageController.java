@@ -41,8 +41,7 @@ public class ImageController {
     }
 
     @PostMapping("/demo/analysis")
-    public String imageAnalysis(ImageForm form, MultipartFile file, Model model, RedirectAttributes attributes,
-                                HttpServletRequest request) throws Exception {
+    public String imageAnalysis(MultipartFile file, Model model, RedirectAttributes attributes, HttpServletRequest request) throws Exception {
         // 저장 폴더 주소
         String path = "src/main/resources/static/imageupload";
         // 저장 경로 및 추후 불러오는 경로 주소
@@ -58,15 +57,16 @@ public class ImageController {
         log.info("contentType: " + file.getContentType());
 
         // UUID 설정된 이미지파일명 설정
-        String imageNameByUUID = imageService.setImageNameByUUID(form.getImageOriginName(), memberId);
-
+        String imageNameByUUID = imageService.setImageNameByUUID(file.getOriginalFilename(), memberId);
         // 파일 저장 이름 및 최종 경로 설정
         String serverPath = sPath + imageNameByUUID;
-        
+
         Image image = new Image();
         image.setImageName(imageNameByUUID);
-        image.setImageOriginName(form.getImageOriginName());
+        image.setImageOriginName(file.getOriginalFilename());
         image.setImageDate(LocalDateTime.now());
+
+        Long imageId = imageService.save(memberId, image);
 
         // 해당 되는 경로및 이름 출력
         log.info("serverPath: " + serverPath);
