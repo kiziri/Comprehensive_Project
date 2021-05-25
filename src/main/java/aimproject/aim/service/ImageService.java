@@ -1,6 +1,7 @@
 package aimproject.aim.service;
 
 import aimproject.aim.model.Image;
+import aimproject.aim.model.Member;
 import aimproject.aim.repository.ImageRepository;
 import aimproject.aim.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,15 @@ public class ImageService {
      * 이미지 정보 저장
      */
     @Transactional
-    public void save(Image image) {
+    public Long save(String memberId, Image imageInfo) {
 
+        // 회원 정보 조회
+        Member member = memberRepository.findOne(memberId);
+
+        Image image = Image.createImage(imageInfo, member);
 
         imageRepository.save(image);
+        return image.getImageId();
     }
 
     /**
