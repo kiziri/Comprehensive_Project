@@ -38,4 +38,16 @@ public class Image {
         member.getImages().add(this);
     }
 
+    // 생성 메서드 //
+    public static Image createImage(Image imageInfo, Member member) {
+        Image image = new Image();
+
+        image.setMember(member);    // 연관 관계 메서드 호출
+        image.setImageName(imageInfo.getImageName());
+        image.setImageOriginName(imageInfo.getImageOriginName());
+        image.setImagePath(imageInfo.getImagePath());
+        image.setImageDate(imageInfo.getImageDate());
+
+        return image;
+    }
 }
