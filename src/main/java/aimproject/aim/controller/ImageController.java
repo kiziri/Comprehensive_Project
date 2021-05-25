@@ -40,7 +40,7 @@ public class ImageController {
         return "page/result_page";
     }
 
-    @PostMapping("/image/analysis")
+    @PostMapping("/demo/analysis")
     public String imageAnalysis(ImageForm form, MultipartFile file, Model model, RedirectAttributes attributes,
                                 HttpServletRequest request) throws Exception {
         // 저장 폴더 주소
