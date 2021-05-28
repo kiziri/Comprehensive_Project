@@ -41,7 +41,7 @@ public class ImageController {
     }
 
     @PostMapping("/demo/analysis")
-    public String imageAnalysis(MultipartFile file, Model model, RedirectAttributes attributes, HttpServletRequest request) throws Exception {
+    public String imageAnalysis(MultipartFile file, Model model, HttpServletRequest request) throws Exception {
         // 저장 폴더 주소
         String directoryPath = "src/main/resources/static/imageupload";
 
@@ -65,15 +65,10 @@ public class ImageController {
         Long imageId = imageService.save(memberId, image);
         log.info(""+imageId);
 
-
-        // 해당 이미지명 및 경로 저장
-        // model.addAttribute("savedName", savedName);
-        // model.addAttribute("savePath",server_Path);
-        attributes.addFlashAttribute("savedName", imageNameByUUID);
+        // 해당 이미지명 및 경로 모델로 전송
+        model.addAttribute("savedName", imageNameByUUID);
 
         File target = new File(directoryPath, imageNameByUUID);  // 파일명과 경로 지정
-        // byte[] imageFile = file.getBytes();
-        // FileCopyUtils : org.springframework.util 에 있음
         FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
 
         return "redirect:/result/{memberNickname}";
