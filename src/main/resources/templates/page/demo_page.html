@@ -8,6 +8,11 @@
 
 <head>
     <link rel="stylesheet" type="text/css" th:href="@{/css/page_css/demo_content.css}">
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script th:src="@{/javascript/demo_script/demo_script.js}"></script>
 </head>
 
 <div layout:fragment="demo_content">
@@ -27,29 +32,24 @@
     </section>
     <section class="image content">
         <div class="container">
-            <div class="imagepre">
+            <div class="imagePreview">
                 <img id="image_view" src="#" alt="이미지 미리보기">
             </div>
         </div>
     </section>
     <section class="image input">
-        <form id="image_up" th:action="@{/imageAnalysis}" method="post" enctype="multipart/form-data">
+        <form id="image_up" action="/demo/analysis" method="post" enctype="multipart/form-data">
         <div class="container">
             <div>
                 <label for="formFileLg" class="form-label">input image</label>
                 <input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/*" name="file">
             </div>
-            <div id="Imagesubmit" class="d-grid gap-2 col-6 mx-auto">
+            <div id="imageSubmit" class="d-grid gap-2 col-6 mx-auto">
                 <button type="submit" class="btn btn-primary" >분석 요청</button>
             </div>
         </div>
         </form>
     </section>
-    <script
-            src="https://code.jquery.com/jquery-3.6.0.js"
-            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-            crossorigin="anonymous"></script>
-    <script th:src="@{/javascript/demo_script/demo_script.js}"></script>
     <!-- /.main 끝 -->
 </div>
 </html>
