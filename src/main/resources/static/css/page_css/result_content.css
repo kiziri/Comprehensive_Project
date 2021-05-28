@@ -3,7 +3,7 @@
     justify-content:center;
 }
 
-.imagepre{
+.imagePreview{
     height: 500px;
     border: black 1px solid;
     display: flex;
