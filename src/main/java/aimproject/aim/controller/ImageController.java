@@ -43,9 +43,7 @@ public class ImageController {
     @PostMapping("/demo/analysis")
     public String imageAnalysis(MultipartFile file, Model model, RedirectAttributes attributes, HttpServletRequest request) throws Exception {
         // 저장 폴더 주소
-        String path = "src/main/resources/static/imageupload";
-        // 저장 경로 및 추후 불러오는 경로 주소
-        String sPath = "static/imageupload/";
+        String directoryPath = "src/main/resources/static/imageupload";
 
         // 요청한 세션의 정보를 가져와 회원의 아이디 저장
         Member member = (Member)request.getSession().getAttribute("member");
@@ -58,8 +56,6 @@ public class ImageController {
 
         // UUID 설정된 이미지파일명 설정
         String imageNameByUUID = imageService.setImageNameByUUID(file.getOriginalFilename(), memberId);
-        // 파일 저장 이름 및 최종 경로 설정
-        String serverPath = sPath + imageNameByUUID;
 
         Image image = new Image();
         image.setImageName(imageNameByUUID);
@@ -67,45 +63,27 @@ public class ImageController {
         image.setImageDate(LocalDateTime.now());
 
         Long imageId = imageService.save(memberId, image);
+        log.info(""+imageId);
 
-        // 해당 되는 경로및 이름 출력
-        log.info("serverPath: " + serverPath);
-        log.info("imageNameByUUID: " + imageNameByUUID);
 
         // 해당 이미지명 및 경로 저장
         // model.addAttribute("savedName", savedName);
         // model.addAttribute("savePath",server_Path);
         attributes.addFlashAttribute("savedName", imageNameByUUID);
-        attributes.addFlashAttribute("savePath", serverPath);
 
-        File target = new File(path, imageNameByUUID);  // 파일명과 경로 지정
+        File target = new File(directoryPath, imageNameByUUID);  // 파일명과 경로 지정
         // byte[] imageFile = file.getBytes();
         // FileCopyUtils : org.springframework.util 에 있음
         FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
 
-        return "redirect:/result";
+        return "redirect:/result/{memberNickname}";
     }
 
 
 
     //프론트 이미지 출력
-    @GetMapping(value = "/static/imageUpload/{imagename}")
-    public void LoadImage(@PathVariable("imagename") String imagename, HttpServletResponse response) {
-        //이미지 경로 지정
-        File image = new File("src/main/resources/static/imageUpload/" + imagename);
-        int cur;
-        try {
-            //이미지를 스트림으로 전송
-            FileInputStream fileIn = new FileInputStream(image);
-            BufferedInputStream bufIn = new BufferedInputStream(fileIn);
-            ServletOutputStream ostream = response.getOutputStream();
-            while ((cur = bufIn.read()) != -1) {
-                ostream.write(cur);
-            }
-            ostream.flush();
-            bufIn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @GetMapping(value = "/result/{memberNickname}")
+    public void loadImage(Model model, HttpServletRequest request) {
+        
     }
 }
