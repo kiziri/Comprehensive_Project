@@ -7,20 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.time.LocalDateTime;
 
 @Controller
@@ -42,8 +35,6 @@ public class ImageController {
 
     @PostMapping("/demo/analysis")
     public String imageAnalysis(MultipartFile file, Model model, HttpServletRequest request) throws Exception {
-        // 저장 폴더 주소
-        String directoryPath = "src/main/resources/static/imageupload";
 
         // 요청한 세션의 정보를 가져와 회원의 아이디 저장
         Member member = (Member)request.getSession().getAttribute("member");
@@ -68,8 +59,9 @@ public class ImageController {
         // 해당 이미지명 및 경로 모델로 전송
         model.addAttribute("savedName", imageNameByUUID);
 
-        File target = new File(directoryPath, imageNameByUUID);  // 파일명과 경로 지정
-        FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
+        // 파일 저장은 서비스단에서 구현
+        //File target = new File(directoryPath, imageNameByUUID);  // 파일명과 경로 지정
+        //FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
 
         return "redirect:/result/{memberNickname}";
     }
@@ -78,7 +70,7 @@ public class ImageController {
 
     //프론트 이미지 출력
     @GetMapping(value = "/result/{memberNickname}")
-    public void loadImage(Model model, HttpServletRequest request) {
+    public void loadImage(Model model, HttpServletRequest request, @PathVariable String memberNickname) {
         
     }
 }
