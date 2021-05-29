@@ -44,7 +44,6 @@ public class AnalysisHistory {
         AnalysisHistory analysisHistory = new AnalysisHistory();
         analysisHistory.setMember(member);
         analysisHistory.setImage(image);
-
         analysisHistory.setHistoryDate(LocalDateTime.now());
 
         return analysisHistory;
