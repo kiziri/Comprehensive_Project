@@ -1,7 +1,9 @@
 package aimproject.aim.service;
 
+import aimproject.aim.model.AnalysisHistory;
 import aimproject.aim.model.Image;
 import aimproject.aim.model.Member;
+import aimproject.aim.repository.AnalysisHistoryRepository;
 import aimproject.aim.repository.ImageRepository;
 import aimproject.aim.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,8 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
     private final MemberRepository memberRepository;
-    
+    private final AnalysisHistoryRepository analysisHistoryRepository;
+
     @Value("${file.upload.directory}")
     private static String imagePath;
 
@@ -37,6 +40,7 @@ public class ImageService {
         // 회원 정보 조회
         Member member = memberRepository.findOne(memberId);
 
+
         Image imageInfo = new Image();
         String imageName = setImageNameByUUID(file.getOriginalFilename(), memberId);
         String imageResourcePath = imagePath + "/" +imageName;
@@ -47,12 +51,15 @@ public class ImageService {
         imageInfo.setImagePath(imageResourcePath);
         imageInfo.setImageDate(LocalDateTime.now());
 
+        // 이미지 저장 및 기록 저장을 위한 각 엔티티 모델 객체 생성
         Image image = Image.createImage(imageInfo, member);
+        AnalysisHistory analysisHistory = AnalysisHistory.createHistory(member, image);
 
         // 파일 저장은 서비스단에서 구현
         File target = new File(imagePath, imageName);  // 파일명과 경로 지정
         FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
 
+        analysisHistoryRepository.save(analysisHistory);
         imageRepository.save(image);
         return image.getImageId();
     }
