@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,9 +35,11 @@ public class ImageController {
 
     @PostMapping("/demo/analysis")
     public String imageAnalysis(MultipartFile file, Model model, HttpServletRequest request) throws Exception {
+        // 세션 받아오기
+        HttpSession session = request.getSession();
 
         // 요청한 세션의 정보를 가져와 회원의 아이디 저장
-        Member member = (Member)request.getSession().getAttribute("member");
+        Member member = (Member)session.getAttribute("member");
         String memberId = member.getMemberId();
 
         // 파일 속성 출력
@@ -49,6 +52,9 @@ public class ImageController {
         log.info(""+imageId);
         Image image = imageService.findOne(imageId);
 
+        // 세션에 이미지 객체 정보 저장
+        session.setAttribute("image", image);
+
         // 해당 이미지명 및 경로 모델로 전송
         model.addAttribute("imageName", image.getImageName());
         model.addAttribute("image", image);
@@ -60,6 +66,14 @@ public class ImageController {
     //프론트 이미지 출력
     @GetMapping(value = "/result/{memberNickname}")
     public void loadImage(@PathVariable String memberNickname, Model model, HttpServletRequest request) {
+        // 세션 받아오기
+        HttpSession session = request.getSession();
+
+        // 회원 및 잉미지 정보를 가져오기
+        Member member = (Member) session.getAttribute("member");
+        Image image = (Image) session.getAttribute("image");
+
+
         
     }
 }
