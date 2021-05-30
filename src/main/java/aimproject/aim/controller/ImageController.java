@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 
 @Controller
 @RequiredArgsConstructor
@@ -73,7 +74,7 @@ public class ImageController {
         Member member = (Member) session.getAttribute("member");
         Image image = (Image) session.getAttribute("image");
 
-
+        // 세션으로부터 받은 객체로 불러올 경로를 설정
         
     }
 }
