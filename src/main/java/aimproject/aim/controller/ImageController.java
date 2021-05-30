@@ -59,14 +59,14 @@ public class ImageController {
         // 해당 이미지명 및 경로 모델로 전송
         model.addAttribute("imageName", image.getImageName());
         model.addAttribute("image", image);
-        model.addAttribute("memberNickname", member.getNickname());
+        model.addAttribute("memberId", member.getMemberId());
 
-        return "redirect:/result/{memberNickname}";
+        return "redirect:/result/{memberId}";
     }
     
     //프론트 이미지 출력
-    @GetMapping(value = "/result/{memberNickname}")
-    public void loadImage(@PathVariable String memberNickname, Model model, HttpServletRequest request) {
+    @GetMapping(value = "/result/{memberId}")
+    public void loadImage(@PathVariable String memberId, Model model, HttpServletRequest request) {
         // 세션 받아오기
         HttpSession session = request.getSession();
 
