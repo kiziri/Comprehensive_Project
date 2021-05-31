@@ -7,11 +7,8 @@ import org.springframework.web.servlet.config.annotation.*;
 
 
 @Configuration
-public class InterceptorConfig implements WebMvcConfigurer {
-    @Autowired
-    private LoginInterceptor loginInterceptor;
-
-
+public class WebConfig implements WebMvcConfigurer {
+    @Autowired private LoginInterceptor loginInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -25,7 +22,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/")
                 .setCachePeriod(20);
