@@ -65,7 +65,7 @@ application.yml
 application-oauth.yml
 
 # ignore imageUpload directory
-imageUpload/
+#imageUpload/
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -107,4 +107,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-imageUpload/
