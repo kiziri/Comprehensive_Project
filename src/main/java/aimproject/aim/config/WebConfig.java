@@ -7,25 +7,21 @@ import org.springframework.web.servlet.config.annotation.*;
 
 
 @Configuration
-public class InterceptorConfig implements WebMvcConfigurer {
-    @Autowired
-    private LoginInterceptor loginInterceptor;
-
-
+public class WebConfig implements WebMvcConfigurer {
+    @Autowired private LoginInterceptor loginInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/")
-                .excludePathPatterns("/css/**", "/resources/**", "/static/imageupload/**", "/javascript/**")
+                .excludePathPatterns("/css/**", "/resources/**", "/static/images/**", "/javascript/**")
                 .excludePathPatterns("/imageAnalysis", "/result", "/login", "/join", "/logout")
                 .excludePathPatterns("/member/form", "/login", "/login/form", "/image/**");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/")
                 .setCachePeriod(20);

@@ -43,5 +43,10 @@ public class MyPageService {
         return analysisHistoryRepository.findAll();
     }
 
-    
+    /**
+     * 회원별 회원의 기록 전체 조회
+     */
+    public List<AnalysisHistory> findAllPerMember(String memberId) {
+        return analysisHistoryRepository.findAllPerMember(memberId);
+    }
 }

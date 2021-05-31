@@ -7,14 +7,19 @@ import aimproject.aim.repository.AnalysisHistoryRepository;
 import aimproject.aim.repository.ImageRepository;
 import aimproject.aim.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +27,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ImageService {
 
     private final ImageRepository imageRepository;
@@ -29,7 +35,14 @@ public class ImageService {
     private final AnalysisHistoryRepository analysisHistoryRepository;
 
     @Value("${file.upload.directory}")
-    private static String imagePath;
+    private String imagePath;
+
+    /**
+     * 이미지 경로 객체 반환
+     */
+    private Path getPath() {
+        return Paths.get(imagePath);
+    }
 
     /**
      * 이미지 정보 저장
@@ -40,10 +53,13 @@ public class ImageService {
         // 회원 정보 조회
         Member member = memberRepository.findOne(memberId);
 
+        String testPath = StringUtils.cleanPath(file.getOriginalFilename());
+        log.info(testPath);
 
         Image imageInfo = new Image();
-        String imageName = setImageNameByUUID(file.getOriginalFilename(), memberId);
-        String imageResourcePath = imagePath + "/" +imageName;
+        String imageName = setImageNameByUUID(file.getOriginalFilename());
+        String imageResourcePath = imagePath +imageName;
+        log.info(imageResourcePath);
 
         imageInfo.setMember(member);
         imageInfo.setImageName(imageName);
@@ -56,6 +72,7 @@ public class ImageService {
         AnalysisHistory analysisHistory = AnalysisHistory.createHistory(member, image);
 
         // 파일 저장은 서비스단에서 구현
+        init();
         File target = new File(imagePath, imageName);  // 파일명과 경로 지정
         FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
 
@@ -67,10 +84,10 @@ public class ImageService {
     /**
      * 이미지 이름 세팅 부분
      */
-    public String setImageNameByUUID(String originalName, String memberId) {
+    public String setImageNameByUUID(String originalName) {
 
         UUID uid = UUID.randomUUID();   // UUID 랜덤 자동 생성 부문
-        String imageName = uid + "_" + memberId + "_" + originalName;
+        String imageName = uid + "_" + originalName;
 
         return imageName;
     }
@@ -103,4 +120,11 @@ public class ImageService {
         return imageRepository.findByImageName(memberId, imageName);
     }
 
+    public void init() {
+        try {
+            Files.createDirectories(getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
