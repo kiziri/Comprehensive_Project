@@ -20,7 +20,6 @@ public class ImageRepository {
      */
     public void save(Image image) {
         em.persist(image);
-        log.info(""+image.getImageId());
     }
 
     /**

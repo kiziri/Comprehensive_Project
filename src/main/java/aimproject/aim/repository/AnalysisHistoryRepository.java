@@ -21,7 +21,6 @@ public class AnalysisHistoryRepository {
      */
     public void save(AnalysisHistory analysisHistory) {
         em.persist(analysisHistory);
-        log.info("" + analysisHistory.getHistoryId());
     }
 
     /**
