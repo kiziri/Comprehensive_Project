@@ -53,13 +53,15 @@ public class ImageService {
         // 회원 정보 조회
         Member member = memberRepository.findOne(memberId);
 
-        String testPath = StringUtils.cleanPath(file.getOriginalFilename());
-        log.info(testPath);
-
         Image imageInfo = new Image();
-        String imageName = setImageNameByUUID(file.getOriginalFilename());
-        String imageResourcePath = imagePath +imageName;
+
+        // 경로 폴더 생성 및 이미지 이름 중복 방지 처리
+        init();
+        String imageName = StringUtils.cleanPath(setImageNameByUUID(file.getOriginalFilename()));
+
+        String imageResourcePath = getPath().resolve(imageName).toString();
         log.info(imageResourcePath);
+        log.info(getPath().resolve(imageName).toString());
 
         imageInfo.setMember(member);
         imageInfo.setImageName(imageName);
@@ -72,7 +74,6 @@ public class ImageService {
         AnalysisHistory analysisHistory = AnalysisHistory.createHistory(member, image);
 
         // 파일 저장은 서비스단에서 구현
-        init();
         File target = new File(imagePath, imageName);  // 파일명과 경로 지정
         FileCopyUtils.copy(file.getBytes(), target);    // target에 해당하는 파일 생성
 
@@ -120,6 +121,9 @@ public class ImageService {
         return imageRepository.findByImageName(memberId, imageName);
     }
 
+    /**
+     * 이미지 업로드 폴더 존재 여부 및 생성
+     */
     public void init() {
         try {
             Files.createDirectories(getPath());
