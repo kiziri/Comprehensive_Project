@@ -16,8 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/")
                 .excludePathPatterns("/css/**", "/resources/**", "/static/images/**", "/javascript/**")
-                .excludePathPatterns("/imageAnalysis", "/result", "/login", "/join", "/logout")
-                .excludePathPatterns("/member/form", "/login", "/login/form", "/image/**");
+                .excludePathPatterns("/imageAnalysis", "/result","/result/**", "/login", "/join", "/logout")
+                .excludePathPatterns("/member/form", "/login", "/login/form", "/image/**" , "/imageUpload/**");
     }
 
     @Override
@@ -25,5 +25,10 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/")
                 .setCachePeriod(20);
+
+        registry.addResourceHandler("/result/**")
+                .addResourceLocations("classpath:/static/")
+                .setCachePeriod(20);
+
     }
 }

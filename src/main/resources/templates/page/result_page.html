@@ -12,7 +12,7 @@
             src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous"></script>
-    <script th:src="@{/javascript/result_script/result_script.js}"></script>
+    <script th:src="@{/javascript/result_page_js/result_script.js}"></script>
 </head>
 
 <div layout:fragment="result_content">
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-sm">
                     <div class="imagePreview">
-                        <img id="image_view" th:src="${savePath}">
+                        <img id="image_view" th:src="${imagePath}"/>
                     </div>
             </div>
             <div class="col-sm">
@@ -49,6 +49,10 @@
 
         </div>
     </div>
+    <script th:inline="javascript">
+        var path22= [[${imagePath}]]
+        console.log(path22)
+    </script>
     <!-- /.main 끝 -->
 
 </div>
