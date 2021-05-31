@@ -7,6 +7,7 @@ import aimproject.aim.repository.AnalysisHistoryRepository;
 import aimproject.aim.repository.ImageRepository;
 import aimproject.aim.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ImageService {
 
     private final ImageRepository imageRepository;
@@ -42,8 +44,9 @@ public class ImageService {
 
 
         Image imageInfo = new Image();
-        String imageName = setImageNameByUUID(file.getOriginalFilename(), memberId);
-        String imageResourcePath = imagePath + "/" +imageName;
+        String imageName = setImageNameByUUID(file.getOriginalFilename());
+        String imageResourcePath = imagePath +imageName;
+        log.info(imageResourcePath);
 
         imageInfo.setMember(member);
         imageInfo.setImageName(imageName);
@@ -67,10 +70,10 @@ public class ImageService {
     /**
      * 이미지 이름 세팅 부분
      */
-    public String setImageNameByUUID(String originalName, String memberId) {
+    public String setImageNameByUUID(String originalName) {
 
         UUID uid = UUID.randomUUID();   // UUID 랜덤 자동 생성 부문
-        String imageName = uid + "_" + memberId + "_" + originalName;
+        String imageName = uid + "_" + originalName;
 
         return imageName;
     }
