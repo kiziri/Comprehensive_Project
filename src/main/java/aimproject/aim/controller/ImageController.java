@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,13 +35,14 @@ public class ImageController {
     }
 
     @PostMapping("/demo/analysis")
-    public String imageAnalysis(MultipartFile file, Model model, HttpServletRequest request) throws Exception {
+    public String imageAnalysis(MultipartFile file, RedirectAttributes redirectAttributes, HttpServletRequest request) throws Exception {
         // 세션 받아오기
         HttpSession session = request.getSession();
 
         // 요청한 세션의 정보를 가져와 회원의 아이디 저장
         Member member = (Member)session.getAttribute("member");
         String memberId = member.getMemberId();
+        log.info(memberId);
 
         // 파일 속성 출력
         log.info("imageOriginName: " + file.getOriginalFilename());
@@ -57,16 +58,16 @@ public class ImageController {
         session.setAttribute("image", image);
 
         // 해당 이미지명 및 경로 모델로 전송
-        model.addAttribute("imageName", image.getImageName());
-        model.addAttribute("image", image);
-        model.addAttribute("memberId", member.getMemberId());
+        redirectAttributes.addAttribute("imageName", image.getImageName());
+        redirectAttributes.addAttribute("image", image);
+        redirectAttributes.addAttribute("memberId", image.getMember().getMemberId());
 
         return "redirect:/result/{memberId}";
     }
     
     //프론트 이미지 출력
     @GetMapping(value = "/result/{memberId}")
-    public void loadImage(@PathVariable String memberId, Model model, HttpServletRequest request) {
+    public String loadImage(@PathVariable String memberId, Model model, HttpServletRequest request) {
         // 세션 받아오기
         HttpSession session = request.getSession();
 
@@ -75,6 +76,7 @@ public class ImageController {
         Image image = (Image) session.getAttribute("image");
 
         // 세션으로부터 받은 객체로 불러올 경로를 설정
-        
+
+        return "";
     }
 }
