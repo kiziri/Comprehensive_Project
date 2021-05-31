@@ -9,6 +9,7 @@ import aimproject.aim.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,11 +42,13 @@ public class ImageService {
     private final MemberRepository memberRepository;
     private final AnalysisHistoryRepository analysisHistoryRepository;
     private OutputStream outputStream;
-    private FileInputStream inputStream;
     private PrintWriter writer;
 
     @Value("${file.upload.directory}")
     private String imagePath;
+
+    @Value("${analysis.server.url}")
+    private String analysisServerURL;
 
     /**
      * 이미지 경로 객체 반환
@@ -139,16 +145,71 @@ public class ImageService {
     /**
      * 이미지 분석 요청
      */
-    public JSONObject requestForAnalysis() {
-        
-        JSONObject resultJSON = new JSONObject();
-        return resultJSON;
+    public JSONObject requestForAnalysis(Image image) {
+        // 저장된 회원의 이미지 경로 가져오기
+        File file  = new File(image.getImagePath());
+        JSONObject analysisObject = null;
+        HttpURLConnection connection = null;
+        BufferedReader bufferedReader = null;
+
+
+        // 파이썬 모델 분석 서버 접속 경로 설정
+        try {
+            URL analysisURL = new URL(analysisServerURL);
+            connection = (HttpURLConnection) analysisURL.openConnection();// 연결 생성
+            
+            // HTTP 헤더 설정
+            connection.setRequestProperty("Content-Type", "multipart/form-data;charset=" + charset + ";boundary=" + boundary);
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+            
+            // HTTP 바디 설정
+            outputStream = connection.getOutputStream();
+            writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
+
+            // 설정된 바디에 데이터 삽입
+            setImageToBody("img", file);
+
+            // HTTP 응답 데이터 수신
+            String responseData;
+            String returnData;
+            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            StringBuffer stringBuffer = new StringBuffer();
+            while ((responseData = bufferedReader.readLine()) != null) {
+                stringBuffer.append(responseData); //StringBuffer 에 응답받은 데이터 순차적으로 저장 실시
+            }
+            // StringBuffer 형식을 String 형식으로 변환
+            returnData = stringBuffer.toString();
+
+            // JSONObject 로 변환
+            JSONParser parser = new JSONParser();
+            analysisObject = (JSONObject) parser.parse(returnData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return analysisObject;
     }
 
     /**
      * body에 폼 데이터 형식으로 이미지 추가
      */
     public void setImageToBody(String formName, File file) {
+        FileInputStream inputStream = null;
+
         // 이미지 데이터를 바디의 폼 데이터 형식으로 변환
         writer.append("--" + boundary).append(LINE_FEED);
         writer.append("Content-Disposition: form-data; name=\"" + formName + "\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
@@ -168,12 +229,21 @@ public class ImageService {
             outputStream.flush();
             writer.append(LINE_FEED);
             writer.flush();
+            writer.append("--" + boundary + "--").append(LINE_FEED);
         } catch (IOException e) {
             e.printStackTrace();
         }
         finally {
             try {
-                inputStream.close();
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
