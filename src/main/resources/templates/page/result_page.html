@@ -41,6 +41,7 @@
                 <div class="col result_json">
                     <p class="title_json">json 결과</p>
                     <span class="result"></span>
+                    <pre><code id="message"></code></pre>
                 </div>
                 <div class="row-cols-3 d-grid gap-2 d-md-block download_content">
                     <button type="button" class="btn btn-primary ">다운로드</button>
@@ -52,12 +53,9 @@
     </div>
     <script th:inline="javascript">
         var path22= [[${imagePath}]]
-        var result= [[${result}]]
         console.log(path22)
-        console.log("result: " +result)
 
-        $(".result").append(result)
-
+        //json 받기 및 변환
         var result_json = [[${result_json}]]
         var json = JSON.parse(result_json)
         //좌표 설정
@@ -78,6 +76,9 @@
             $(divDemo).css("opacity","0.5");
             $(".imagePreview").append(divDemo)
         }
+        //결과 삽입
+        const message_span = document.querySelector("#message");
+        message_span.innerHTML = JSON.stringify(json, null, 2);
     </script>
     <!-- /.main 끝 -->
 
