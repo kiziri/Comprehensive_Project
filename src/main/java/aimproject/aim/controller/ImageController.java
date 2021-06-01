@@ -6,6 +6,7 @@ import aimproject.aim.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.buf.Utf8Encoder;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,8 +72,13 @@ public class ImageController {
         Image image = imageService.findByImageName(memberId, imageSession.getImageName());
         JSONObject resultJSON = imageService.requestForAnalysis(image);
 
+        //결과 변환
+        JSONArray jsonArray = (JSONArray) resultJSON.get("data");
+
         // 세션으로부터 받은 객체로 불러올 경로를 설정
         model.addAttribute("imagePath", imagePath);
+        model.addAttribute("result",jsonArray.toString().replace(",",",<br>"));
+        model.addAttribute("result_json",jsonArray.toString());
 
         return "page/result_page";
     }

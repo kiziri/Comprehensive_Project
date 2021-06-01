@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -147,106 +146,77 @@ public class ImageService {
      */
     public JSONObject requestForAnalysis(Image image) {
         // 저장된 회원의 이미지 경로 가져오기
-        File file  = new File(image.getImagePath());
-        JSONObject analysisObject = null;
-        HttpURLConnection connection = null;
-        BufferedReader bufferedReader = null;
+        File file = new File(image.getImagePath());
 
-
-        // 파이썬 모델 분석 서버 접속 경로 설정
         try {
-            URL analysisURL = new URL(analysisServerURL);
-            connection = (HttpURLConnection) analysisURL.openConnection();// 연결 생성
-            
-            // HTTP 헤더 설정
+            URL url = new URL(analysisServerURL);
+            ;//url 경로 설정
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();// 연결 생성
+
+            //http 해더 설정
             connection.setRequestProperty("Content-Type", "multipart/form-data;charset=" + charset + ";boundary=" + boundary);
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setUseCaches(false);
-            
-            // HTTP 바디 설정
+
+            //body 작성
             outputStream = connection.getOutputStream();
             writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
 
-            // 설정된 바디에 데이터 삽입
-            setImageToBody("img", file);
+            //body 데이터 세팅
+            addFilePart("img", file);
+            writer.append("--" + boundary + "--").append(LINE_FEED);
+            writer.close();
 
-            // HTTP 응답 데이터 수신
-            String responseData;
-            String returnData;
-            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            String responseData = "";
+            String returnData = "";
+
+            //http 요청 후 응답 받은 데이터를 버퍼에 쌓는다
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             StringBuffer stringBuffer = new StringBuffer();
             while ((responseData = bufferedReader.readLine()) != null) {
-                stringBuffer.append(responseData); //StringBuffer 에 응답받은 데이터 순차적으로 저장 실시
+                stringBuffer.append(responseData); //StringBuffer에 응답받은 데이터 순차적으로 저장 실시
             }
-            // StringBuffer 형식을 String 형식으로 변환
+
+            //응답 받은 데이터 출력
             returnData = stringBuffer.toString();
+            System.out.println(returnData);
 
-            // JSONObject 로 변환
+            //오브젝트화
             JSONParser parser = new JSONParser();
-            analysisObject = (JSONObject) parser.parse(returnData);
-
-        } catch (Exception e) {
+            JSONObject object = (JSONObject) parser.parse(returnData);
+            return object;
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-                if (connection != null) {
-                    connection.disconnect();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
-        return analysisObject;
+        return null;
     }
 
-    /**
+        /**
      * body에 폼 데이터 형식으로 이미지 추가
      */
-    public void setImageToBody(String formName, File file) {
-        FileInputStream inputStream = null;
-
+    public void addFilePart(String name, File file) throws IOException {
         // 이미지 데이터를 바디의 폼 데이터 형식으로 변환
         writer.append("--" + boundary).append(LINE_FEED);
-        writer.append("Content-Disposition: form-data; name=\"" + formName + "\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
+        writer.append("Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
         writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(file.getName())).append(LINE_FEED);
         writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
         writer.append(LINE_FEED);
         writer.flush();
 
-        try {
-            // 변환한 형식을 바이트화하여 전송
-            inputStream = new FileInputStream(file);
-            byte[] buffer = new byte[(int) file.length()];
-            int bytesRead = -1;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            outputStream.flush();
-            writer.append(LINE_FEED);
-            writer.flush();
-            writer.append("--" + boundary + "--").append(LINE_FEED);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // 변환한 형식을 바이트화하여 전송
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] buffer = new byte[(int) file.length()];
+        int bytesRead = -1;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
         }
-        finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        outputStream.flush();
+        inputStream.close();
+        writer.append(LINE_FEED);
+        writer.flush();
     }
+
+
 }
