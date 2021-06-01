@@ -40,6 +40,7 @@
             <div class="col-sm">
                 <div class="col result_json">
                     <p>json 결과</p>
+                    <span class="result"></span>
                 </div>
                 <div class="row-cols-3 d-grid gap-2 d-md-block download_content">
                     <button type="button" class="btn btn-primary ">다운로드</button>
@@ -51,7 +52,31 @@
     </div>
     <script th:inline="javascript">
         var path22= [[${imagePath}]]
+        var result= [[${result}]]
         console.log(path22)
+        console.log("result: " +result)
+
+        $(".result").append(result)
+
+        var result_json = [[${result_json}]]
+        var json = JSON.parse(result_json)
+        //좌표 설정
+        for(i=0; i<json.length; i++){
+            name = "face"+ i
+            x=json[i].local_x;
+            y=json[i].local_y;
+            w=json[i].local_w;
+            h=json[i].local_h;
+            var divDemo = document.createElement('div');
+            divDemo.setAttribute("id",name)
+            $(divDemo).css("top",y+"px");
+            $(divDemo).css("left",x+"px");
+            $(divDemo).css("weight",w+"px");
+            $(divDemo).css("height",h+"px");
+            $(divDemo).css("border","2px solid black");
+            $(divDemo).css("opacity","0.5");
+            $(".imagePreview").append(divDemo)
+        }
     </script>
     <!-- /.main 끝 -->
 
