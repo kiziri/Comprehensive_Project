@@ -69,9 +69,10 @@
             h=json[i].local_h;
             var divDemo = document.createElement('div');
             divDemo.setAttribute("id",name)
+            $(divDemo).css("position","absolute");
             $(divDemo).css("top",y+"px");
             $(divDemo).css("left",x+"px");
-            $(divDemo).css("weight",w+"px");
+            $(divDemo).css("width",w+"px");
             $(divDemo).css("height",h+"px");
             $(divDemo).css("border","2px solid black");
             $(divDemo).css("opacity","0.5");
