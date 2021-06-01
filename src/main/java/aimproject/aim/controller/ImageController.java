@@ -77,7 +77,9 @@ public class ImageController {
 
         // 세션으로부터 받은 객체로 불러올 경로를 설정
         model.addAttribute("imagePath", imagePath);
-        model.addAttribute("result",jsonArray.toString().replace(",",",<br>"));
+        model.addAttribute("result",jsonArray.toString().
+                replace(",",",</br> &nbsp;").replace(":{",":{</br> &nbsp;").replace("{","\n{")
+        );
         model.addAttribute("result_json",jsonArray.toString());
 
         return "page/result_page";
