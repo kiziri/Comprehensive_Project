@@ -63,10 +63,10 @@
         //좌표 설정
         for(i=0; i<json.length; i++){
             name = "face"+ i
-            x=json[i].local_x;
-            y=json[i].local_y;
-            w=json[i].local_w;
-            h=json[i].local_h;
+            x=json[i].face_local.local_x;
+            y=json[i].face_local.local_y;
+            w=json[i].face_local.local_w;
+            h=json[i].face_local.local_h;
             var divDemo = document.createElement('div');
             divDemo.setAttribute("id",name)
             $(divDemo).css("position","absolute");
