@@ -75,6 +75,7 @@ public class ImageService {
         imageInfo.setMember(member);
         imageInfo.setImageName(imageName);
         imageInfo.setImageOriginName(file.getOriginalFilename());
+        imageInfo.setContentType(file.getContentType());
         imageInfo.setImagePath(imageResourcePath);
         imageInfo.setImageDate(LocalDateTime.now());
 
@@ -114,13 +115,6 @@ public class ImageService {
      */
     public Image findOne(Long imageId) {
         return imageRepository.findOne(imageId);
-    }
-
-    /**
-     * 이미지 아이디와 단건 조회
-     */
-    public Image findByImageId(String memberId, Long imageId) {
-        return imageRepository.findByImageId(memberId, imageId);
     }
 
     /**
@@ -193,7 +187,7 @@ public class ImageService {
         return null;
     }
 
-        /**
+    /**
      * body에 폼 데이터 형식으로 이미지 추가
      */
     public void addFilePart(String name, File file) throws IOException {
