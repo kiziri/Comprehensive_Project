@@ -141,6 +141,10 @@ public class ImageService {
     public JSONObject requestForAnalysis(Image image) {
         // 저장된 회원의 이미지 경로 가져오기
         File file = new File(image.getImagePath());
+        BufferedReader bufferedReader = null;
+        StringBuffer stringBuffer;
+        String responseData;
+        String returnData;
 
         try {
             URL url = new URL(analysisServerURL);
@@ -160,29 +164,37 @@ public class ImageService {
 
             //body 데이터 세팅
             addFilePart("img", file);
-            writer.append("--" + boundary + "--").append(LINE_FEED);
-            writer.close();
-
-            String responseData = "";
-            String returnData = "";
 
             //http 요청 후 응답 받은 데이터를 버퍼에 쌓는다
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-            StringBuffer stringBuffer = new StringBuffer();
+            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+            stringBuffer = new StringBuffer();
             while ((responseData = bufferedReader.readLine()) != null) {
                 stringBuffer.append(responseData); //StringBuffer에 응답받은 데이터 순차적으로 저장 실시
             }
-
             //응답 받은 데이터 출력
             returnData = stringBuffer.toString();
-            System.out.println(returnData);
 
             //오브젝트화
             JSONParser parser = new JSONParser();
-            JSONObject object = (JSONObject) parser.parse(returnData);
-            return object;
+            JSONObject resultObject = (JSONObject) parser.parse(returnData);
+
+            return resultObject;
         } catch (IOException | ParseException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+            } catch (Exception e) {
+
+            }
         }
         return null;
     }
@@ -190,26 +202,39 @@ public class ImageService {
     /**
      * body에 폼 데이터 형식으로 이미지 추가
      */
-    public void addFilePart(String name, File file) throws IOException {
-        // 이미지 데이터를 바디의 폼 데이터 형식으로 변환
-        writer.append("--" + boundary).append(LINE_FEED);
-        writer.append("Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
-        writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(file.getName())).append(LINE_FEED);
-        writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
-        writer.append(LINE_FEED);
-        writer.flush();
+    public void addFilePart(String name, File file) {
+        FileInputStream inputStream = null;
+        try {
+            outputStream.flush();
+            // 이미지 데이터를 바디의 폼 데이터 형식으로 변환
+            writer.append("--" + boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
+            writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(file.getName())).append(LINE_FEED);
+            writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
+            writer.append(LINE_FEED);
+            writer.flush();
 
-        // 변환한 형식을 바이트화하여 전송
-        FileInputStream inputStream = new FileInputStream(file);
-        byte[] buffer = new byte[(int) file.length()];
-        int bytesRead = -1;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
+            // 변환한 형식을 바이트화하여 전송
+            inputStream = new FileInputStream(file);
+            byte[] buffer = new byte[(int) file.length()];
+            int bytesRead = -1;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        outputStream.flush();
-        inputStream.close();
         writer.append(LINE_FEED);
         writer.flush();
+        writer.append("--" + boundary + "--").append(LINE_FEED);
     }
 
 
