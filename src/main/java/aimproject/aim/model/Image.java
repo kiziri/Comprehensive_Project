@@ -27,6 +27,8 @@ public class Image {
 
     private String imageOriginName;
 
+    private String contentType;
+
     private String imagePath;
     
     private LocalDateTime imageDate;         // 이미지 저장 시간
