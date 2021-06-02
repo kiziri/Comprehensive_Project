@@ -5,9 +5,9 @@ import aimproject.aim.model.Member;
 import aimproject.aim.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.Utf8Encoder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,13 +26,16 @@ public class ImageController {
 
     private final ImageService imageService;
 
+    @Value("${file.upload.directory}")
+    private String path;
+
     @RequestMapping("/demo")
     public String demo(Model model) {
         return "page/demo_page";
     }
 
     @PostMapping("/demo/analysis")
-    public String imageAnalysis(MultipartFile file, RedirectAttributes redirectAttributes, HttpServletRequest request) throws Exception {
+    public String imageAnalysis(MultipartFile file, HttpServletRequest request) throws Exception {
         // 세션 받아오기
         HttpSession session = request.getSession();
 
@@ -52,8 +49,6 @@ public class ImageController {
 
         // 세션에 이미지 객체 정보 저장
         session.setAttribute("image", image);
-
-        // 해당 이미지명 및 경로 모델로 전송
 
         return "redirect:/result/"+image.getMember().getMemberId();
     }
@@ -81,6 +76,4 @@ public class ImageController {
 
         return "page/result_page";
     }
-
-
 }
