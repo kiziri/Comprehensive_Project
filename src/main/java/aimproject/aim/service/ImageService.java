@@ -224,14 +224,14 @@ public class ImageService {
             e.printStackTrace();
         } finally {
             try {
+                if (writer != null) {
+                    writer.close();
+                }
                 if (inputStream != null) {
                     inputStream.close();
                 }
                 if (outputStream != null) {
                     outputStream.close();
-                }
-                if (writer != null) {
-                    writer.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
