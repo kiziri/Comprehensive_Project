@@ -40,8 +40,6 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final MemberRepository memberRepository;
     private final AnalysisHistoryRepository analysisHistoryRepository;
-    private OutputStream outputStream;
-    private PrintWriter writer;
 
     @Value("${file.upload.directory}")
     private String imagePath;
@@ -158,12 +156,8 @@ public class ImageService {
             connection.setDoOutput(true);
             connection.setUseCaches(false);
 
-            //body 작성
-            outputStream = connection.getOutputStream();
-            writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
-
             //body 데이터 세팅
-            addFilePart("img", file);
+            addFilePart("img", file, connection);
 
             //http 요청 후 응답 받은 데이터를 버퍼에 쌓는다
             bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
@@ -183,17 +177,11 @@ public class ImageService {
             e.printStackTrace();
         } finally {
             try {
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
                 if (bufferedReader != null) {
                     bufferedReader.close();
                 }
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
         return null;
@@ -202,10 +190,16 @@ public class ImageService {
     /**
      * body에 폼 데이터 형식으로 이미지 추가
      */
-    public void addFilePart(String name, File file) {
+    public void addFilePart(String name, File file, HttpURLConnection connection) {
+        PrintWriter writer = null;
+        OutputStream outputStream = null;
         FileInputStream inputStream = null;
+
         try {
-            outputStream.flush();
+            //body 작성
+            outputStream = connection.getOutputStream();
+            writer = new PrintWriter(new OutputStreamWriter(outputStream, charset), true);
+
             // 이미지 데이터를 바디의 폼 데이터 형식으로 변환
             writer.append("--" + boundary).append(LINE_FEED);
             writer.append("Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + file.getName() + "\"").append(LINE_FEED);
@@ -221,6 +215,11 @@ public class ImageService {
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, bytesRead);
             }
+            outputStream.flush();
+            writer.append(LINE_FEED);
+            writer.flush();
+            writer.append("--" + boundary + "--").append(LINE_FEED);
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -228,14 +227,15 @@ public class ImageService {
                 if (inputStream != null) {
                     inputStream.close();
                 }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        writer.append(LINE_FEED);
-        writer.flush();
-        writer.append("--" + boundary + "--").append(LINE_FEED);
     }
-
-
 }
