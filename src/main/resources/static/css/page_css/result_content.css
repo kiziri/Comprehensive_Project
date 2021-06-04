@@ -15,11 +15,15 @@
 .result_json{
     height: 500px;
     border: black 1px solid;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .title_json{
     text-align: center;
+    font-size: 35px;
+}
+#message{
+    font-size: 25px;
 }
 
 

@@ -28,7 +28,7 @@ window.onload = function () {
         $(divDemo).css("top", y+blankY + "px");
         $(divDemo).css("width", w + "px");
         $(divDemo).css("height", h + "px");
-        $(divDemo).css("border", "5px solid green");
+        $(divDemo).css("border", "10px solid blue");
         $(divDemo).css("opacity", "0.5");
         $(".imagePreview").append(divDemo)
     }
