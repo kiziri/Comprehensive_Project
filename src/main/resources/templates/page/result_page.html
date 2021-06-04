@@ -16,17 +16,19 @@
 </head>
 
 <div layout:fragment="result_content">
+    <!-- script 주입 시작 -->
+    <script th:inline="javascript">
+        //json 받기 및 변환
+        var result_json = [[${result_json}]]
+    </script>
+    <!-- /script 주입 시작 -->
+
     <!-- main 시작 -->
     <section class="main-content">
         <div class="container first-content">
             <!-- Content here -->
-            <div>
-                <div class="first-content-title-div">
-                    <h1 class="first-content-title">기능 설명</h1>
-                </div>
-                <div class="first-content-info-div">
-                    <p class="first-content-info">간략한 기능 설명 간략한 기능 설명 간략한 기능 설명</p>
-                </div>
+            <div class="first-content-title-div">
+                <h1 class="first-content-title">분석 결과</h1>
             </div>
         </div>
     </section>
@@ -44,17 +46,8 @@
                     <pre><code id="message"></code></pre>
                 </div>
             </div>
-
         </div>
     </div>
-    <script th:inline="javascript">
-        //이미지 경로 받기
-        var path22= [[${imagePath}]]
-        console.log(path22)
-        //json 받기 및 변환
-        var result_json = [[${result_json}]]
-    </script>
     <!-- /.main 끝 -->
-
 </div>
 </html>

@@ -1,5 +1,3 @@
-console.log("js result");
-
 
 window.onload = function () {
 //json 처리
