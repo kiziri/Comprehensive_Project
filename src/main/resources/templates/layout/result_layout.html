@@ -12,15 +12,20 @@
     <!-- 공통의 사용 라이브러리 및 헤더, 푸터 -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/css/common/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common/page-common.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/common/header_style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/common/footer_style.css}">
     <!-- /공통의 사용 라이브러리 및 헤더, 푸터 -->
 </head>
 
-<div th:replace="fragment/header :: heaferFragment"></div>
+<body>
+    <div class="page-container">
+        <div th:replace="fragment/header :: heaferFragment"></div>
 
-<div layout:fragment="result_content"></div>
+        <div class="page-content" layout:fragment="result_content"></div>
 
-<div th:replace="fragment/footer :: footerFragment"></div>
+        <div th:replace="fragment/footer :: footerFragment"></div>
+    </div>
+</body>
 
 </html>
