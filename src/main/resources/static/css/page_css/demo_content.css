@@ -4,12 +4,17 @@
 }
 
 .imagePreview{
-    height: 500px;
-    border: black 1px solid;
+    height: 700px;
+    border: black 2px solid;
     display: flex;
     justify-content:center;
     align-items:center;
 }
+
+.image_input_content {
+    margin-top: 20px;
+}
+
 #imageSubmit{
     margin-top: 50px;
 }
