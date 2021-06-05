@@ -27,22 +27,30 @@ body {
 
 .function-li-1 {
     margin-top: 15px;
+    list-style: none;
 }
 
 .function-li-2 {
     margin-top: 15px;
+    list-style: none;
 }
 
 .function-li-3 {
     margin-top: 15px;
+    list-style: none;
 }
 
 .function-li-4 {
     margin-top: 15px;
+    list-style: none;
 }
 
 .first-content-info-div {
     margin-top: 15px;
+}
+
+.list-text-line {
+    line-height: 50px;
 }
 
 .second-content {
