@@ -1,0 +1,18 @@
+.main-content {
+    margin-top: 10px;
+}
+
+.first-content{
+    display: flex;
+    justify-content:center;
+}
+
+.first-content-title {
+    margin-bottom: 20px;
+}
+
+.table {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
