@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="layout/history_layout"
+>
+
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/page_css/history_content.css}">
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+</head>
+
+<div layout:fragment="history_content">
+    <!-- main 시작 -->
+    <section class="main-content">
+        <div class="container first-content">
+            <!-- Content here -->
+            <div class="first-content-title-div">
+                <h1 class="first-content-title">분석 기록</h1>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>분석 날짜</th>
+                    <th>이미지 명</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="history : ${histories}">
+                    <th th:text="${history.historyId}"></th>
+                    <td th:text="${history.image.getImageOriginName()}"></td>
+                    <td th:text="${history.historyDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- /.main 끝 -->
+</div>
+
+</html>
