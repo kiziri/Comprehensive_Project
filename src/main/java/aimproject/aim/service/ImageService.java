@@ -73,7 +73,6 @@ public class ImageService {
         imageInfo.setMember(member);
         imageInfo.setImageName(imageName);
         imageInfo.setImageOriginName(file.getOriginalFilename());
-        imageInfo.setContentType(file.getContentType());
         imageInfo.setImagePath(imageResourcePath);
         imageInfo.setImageDate(LocalDateTime.now());
 
