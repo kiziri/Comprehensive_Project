@@ -38,7 +38,7 @@ window.onload = function () {
         $(hoverdiv).css("top", y + blankY + h / 2 + "px");
         $(hoverdiv).css("display", "none")
         $(hoverdiv).css("padding", "5px")
-        $(hoverdiv).css("background-color", "white")//연회색
+        $(hoverdiv).css("background-color", "rgb(211,211,211)")//연회색
         $(hoverdiv).append(
             "happy:" + json[i].face_emotion.happy + "<br>" +
             "sad: " + json[i].face_emotion.sad + "<br>" +
