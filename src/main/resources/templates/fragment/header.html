@@ -19,7 +19,7 @@
                     <ul class="navbar-nav navUserButton">
                         <li class="nav-item">
                             <span th:if="${session.member?.getMemberId()!=null}">
-                                <p th:text="${session.member?.getNickname()}">환영합니다</p>
+                                <p class="id-text" th:text="${session.member?.getNickname()}"></p>
                             </span>
                         </li>
                         <li class="nav-item">
@@ -32,7 +32,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active navUserMyPageButton" aria-current="page"
-                               th:if="${session.member?.getMemberId()!=null}" href="#">내정보</a>
+                               th:if="${session.member?.getMemberId()!=null}" href="#">분석기록</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active navUserLogoutButton" aria-current="page"
