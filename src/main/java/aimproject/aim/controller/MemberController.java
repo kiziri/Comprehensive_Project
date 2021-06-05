@@ -1,19 +1,18 @@
 package aimproject.aim.controller;
 
+import aimproject.aim.model.AnalysisHistory;
 import aimproject.aim.model.Member;
 import aimproject.aim.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -47,4 +46,33 @@ public class MemberController {
         return "redirect:/";
     }
 
+    @GetMapping("/histories")
+    public String analysisHistory(Model model, HttpServletRequest request) {
+        // 세션 받아오기
+        HttpSession session = request.getSession();
+
+        // 요청한 세션의 정보를 가져와 회원의 아이디 저장
+        Member member = (Member)session.getAttribute("member");
+        String memberId = member.getMemberId();
+
+        model.addAttribute("memberId", memberId);
+
+        return "redirect:/histories/"+memberId;
+    }
+
+    @GetMapping("/histories/{memberId}")
+    public String analysisHistory(@PathVariable String memberId, Model model, HttpServletRequest request) {
+        // 세션 받아오기
+        HttpSession session = request.getSession();
+
+        // 요청한 세션의 정보를 저장
+        Member member = (Member)session.getAttribute("member");
+        
+        // 이미지 분석 기록 가져오기
+        List<AnalysisHistory> analysisHistories = memberService.findAllPerMember(memberId);
+
+        model.addAttribute("histories", analysisHistories);
+
+        return "page/history_page";
+    }
 }

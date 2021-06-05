@@ -1,6 +1,8 @@
 package aimproject.aim.service;
 
+import aimproject.aim.model.AnalysisHistory;
 import aimproject.aim.model.Member;
+import aimproject.aim.repository.AnalysisHistoryRepository;
 import aimproject.aim.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 public class MemberService {
     
     private final MemberRepository memberRepository;
+    private final AnalysisHistoryRepository analysisHistoryRepository;
 
     /**
      * 회원 가입
@@ -75,5 +78,19 @@ public class MemberService {
 
     public Member findByLoginInfo(String memberId, String memberPw) {
         return memberRepository.findByLoginInfo(memberId, memberPw);
+    }
+
+    /**
+     * 회원 기록 전체 조회
+     */
+    public List<AnalysisHistory> findAll() {
+        return analysisHistoryRepository.findAll();
+    }
+
+    /**
+     * 회원별 회원의 기록 전체 조회
+     */
+    public List<AnalysisHistory> findAllPerMember(String memberId) {
+        return analysisHistoryRepository.findAllPerMember(memberId);
     }
 }
