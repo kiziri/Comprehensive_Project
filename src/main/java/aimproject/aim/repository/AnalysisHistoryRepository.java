@@ -34,7 +34,7 @@ public class AnalysisHistoryRepository {
      * 기록 정보, 회원별 전체 조회
      */
     public List<AnalysisHistory> findAllPerMember(String memberId) {
-        return em.createQuery("select a from AnalysisHistory a where a.member.memberId =:memberId")
+        return em.createQuery("select a from AnalysisHistory a where a.member.memberId =:memberId", AnalysisHistory.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
