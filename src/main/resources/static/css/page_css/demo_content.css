@@ -1,6 +1,14 @@
+.main-content {
+    margin-top: 10px;
+}
+
 .first-content{
     display: flex;
     justify-content:center;
+}
+
+.first-content-title {
+    margin-bottom: 20px;
 }
 
 .imagePreview{
@@ -13,6 +21,15 @@
 
 .image_input_content {
     margin-top: 20px;
+}
+
+.label {
+    font-size: 22px;
+}
+
+.analysis-btn {
+    padding: 7px 0 7px 0;
+    font-size: 20px;
 }
 
 #imageSubmit{

@@ -20,20 +20,15 @@
     <section class="main-content">
         <div class="container first-content">
             <!-- Content here -->
-            <div>
-                <div class="first-content-title-div">
-                    <h1 class="first-content-title">기능 설명</h1>
-                </div>
-                <div class="first-content-info-div">
-                    <p class="first-content-info">간략한 기능 설명 간략한 기능 설명 간략한 기능 설명</p>
-                </div>
+            <div class="first-content-title-div">
+                <h1 class="first-content-title">이미지 감정 분석</h1>
             </div>
         </div>
     </section>
     <section class="image_content">
         <div class="container">
             <div class="imagePreview">
-                <img id="image_view" src="#"  alt="이미지 미리보기">
+                <img id="image_view" src="">
             </div>
         </div>
     </section>
@@ -41,11 +36,11 @@
         <form id="image_up" action="/demo/analysis" method="post" enctype="multipart/form-data" accept-charset="UTF-8">
         <div class="container">
             <div>
-                <label for="formFileLg" class="form-label">input image</label>
+                <label for="formFileLg" class="form-label label">input image</label>
                 <input class="form-control form-control-lg" id="formFileLg" type="file" accept="image/*" name="file">
             </div>
             <div id="imageSubmit" class="d-grid gap-2 col-6 mx-auto">
-                <button type="submit" class="btn btn-primary" >분석 요청</button>
+                <button type="submit" class="btn btn-primary analysis-btn" >분석 요청</button>
             </div>
         </div>
         </form>
